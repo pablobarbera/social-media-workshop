@@ -1,0 +1,17 @@
+*.history
+priv/*
+*.tex
+*.aux
+*.log
+*.png
+*.jpg
+*.vrb
+*.out
+*.snm
+*.toc
+*.nav
+*.gz
+data/*
+users*
+pew*
+ohio.pdf
