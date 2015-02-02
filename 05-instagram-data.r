@@ -6,7 +6,6 @@
 ################################################################
 
 setwd("~/Dropbox/git/social-media-workshop")
-source("functions.r")
 
 # Installing the package to work with Instagram data
 library(devtools)

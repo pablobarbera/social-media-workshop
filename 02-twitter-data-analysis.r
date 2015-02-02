@@ -82,11 +82,11 @@ clean_tweets <- function(text){
 
 # now we clean the text
 tweets$text[1]
-tweets$text[2]
+tweets$text[7]
 
 text <- clean_tweets(tweets$text)
 text[[1]]
-text[[2]]
+text[[7]]
 
 # a function to classify individual tweets
 classify <- function(words, pos.words, neg.words){
@@ -98,7 +98,7 @@ classify <- function(words, pos.words, neg.words){
 
 # this is how we would apply it
 classify(text[[1]], pos.words, neg.words)
-classify(text[[2]], pos.words, neg.words)
+classify(text[[7]], pos.words, neg.words)
 
 # but we want to aggregate over many tweets...
 classifier <- function(text, pos.words, neg.words){

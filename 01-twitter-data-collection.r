@@ -10,7 +10,7 @@ setwd("~/Dropbox/git/social-media-workshop")
 ## INSTALLING PACKAGES THAT WE WILL USE TODAY
 doInstall <- TRUE  # Change to FALSE if you don't want packages installed.
 toInstall <- c("ROAuth", "twitteR", "streamR", "ggplot2", "stringr",
-	"tm", "RCurl", "maps", "Snowball", "Rfacebook", "topicmodels", "devtools")
+	"tm", "RCurl", "maps", "Rfacebook", "topicmodels", "devtools")
 if(doInstall){install.packages(toInstall, repos = "http://cran.r-project.org")}
 
 
@@ -103,7 +103,7 @@ timeline <- twListToDF(timeline)
 source("functions.r")
 
 getTimeline(filename="tweets_nytimes.json", screen_name="nytimes", 
-    n=3000, oauth=my_oauth, trim_user="false")
+    n=1000, oauth=my_oauth, trim_user="false")
 
 # it's stored in disk and I can read it with the 'parseTweets' function in
 # the streamR package
