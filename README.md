@@ -16,7 +16,7 @@ The rest of the workshop was devoted to explaining the data that is available th
 
 The script `01-twitter-data-collection.r` demonstrates how the `twitteR` and `streamR` packages can be used to collect data from Twitter's REST and Streaming API. This data is then used in the script `02-twitter-data-analysis.r` to showcase two frequent analyses that rely on Twitter data: a map of geolocated tweets to examine the geographic distribution of human activity, and an estimation of the favorability of Barack Obama based on tweets that mention him using sentiment analysis.
 
-<img src="img/tweets-map.png", width="350px"/><img src="img/sentiment.png" width="275px"/>
+<p align="center"><img src="img/tweets-map.png", width="400px"/><img src="img/sentiment.png" width="300px"/></p>
 
 The scripts `03-facebook-data-collection.r` and `04-facebook-data-analysis` follow a similar logic. First, I show how to collect data from public pages on Facebook using the `Rfacebook` package, including post information, likes, and comments. Then, I replicate an analysis conducted by <a href="https://solomonmessing.wordpress.com/">Solomon Messing</a> and other members of the <a href="https://www.facebook.com/data">Facebook Data Science</a> team that looks at <a href="https://www.facebook.com/notes/facebook-data-science/campaign-rhetoric-and-style-on-facebook-in-the-2014-us-midterms/10152581594083859">campaign rethoric of Members of the U.S. Congress</a> on their Facebook pages. In particular, I show how to collect and clean the text posted on the legislators' pages, and then run a topic modeling technique (LDA) to estimate the proportion of time they spend discussing each political issue.
 
