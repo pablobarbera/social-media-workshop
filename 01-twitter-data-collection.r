@@ -9,8 +9,8 @@ setwd("~/Dropbox/git/social-media-workshop")
 
 ## INSTALLING PACKAGES THAT WE WILL USE TODAY
 doInstall <- TRUE  # Change to FALSE if you don't want packages installed.
-toInstall <- c("ROAuth", "twitteR", "streamR", "ggplot2", 
-	"tm", "RCurl", "maps", "Snowball", "Rfacebook", "topicmodels")
+toInstall <- c("ROAuth", "twitteR", "streamR", "ggplot2", "stringr",
+	"tm", "RCurl", "maps", "Snowball", "Rfacebook", "topicmodels", "devtools")
 if(doInstall){install.packages(toInstall, repos = "http://cran.r-project.org")}
 
 
