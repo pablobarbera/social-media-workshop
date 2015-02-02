@@ -1,5 +1,6 @@
 *.history
 priv/*
+slides/*.png
 *.tex
 *.aux
 *.log
