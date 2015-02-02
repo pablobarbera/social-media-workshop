@@ -13,9 +13,6 @@ library(ggplot2)
 library(grid)
 library(maps)
 
-# Loading OAuth token
-load("backup/oauth_token.Rdata")
-
 ###############################################
 ### WORKING WITH GEOLOCATED TWEETS			###
 ###############################################
@@ -37,7 +34,7 @@ ggplot(map.data) + geom_map(aes(map_id = region), map = map.data, fill = "grey90
     scale_x_continuous(limits=c(-125,-66)) + scale_y_continuous(limits=c(25,50)) +
     # 3) adding the dot for each tweet
     geom_point(data = tweets, 
-    aes(x = lon, y = lat), size = 1.30, alpha = 1/5, color = "darkblue") +
+    aes(x = lon, y = lat), size = 1, alpha = 1/5, color = "darkblue") +
     # 4) removing unnecessary graph elements
     theme(axis.line = element_blank(), 
     	axis.text = element_blank(), 
@@ -46,6 +43,7 @@ ggplot(map.data) + geom_map(aes(map_id = region), map = map.data, fill = "grey90
         panel.background = element_blank(), 
         panel.border = element_blank(), 
         panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
         plot.background = element_blank()) 
 
 # How many tweets are coming from each state?

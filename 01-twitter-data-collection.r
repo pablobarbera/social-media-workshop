@@ -10,7 +10,7 @@ setwd("~/Dropbox/git/social-media-workshop")
 ## INSTALLING PACKAGES THAT WE WILL USE TODAY
 doInstall <- TRUE  # Change to FALSE if you don't want packages installed.
 toInstall <- c("ROAuth", "twitteR", "streamR", "ggplot2", 
-	"tm", "RCurl", "maps", "Snowball", "Rfacebook")
+	"tm", "RCurl", "maps", "Snowball", "Rfacebook", "topicmodels")
 if(doInstall){install.packages(toInstall, repos = "http://cran.r-project.org")}
 
 
@@ -49,6 +49,9 @@ searchTwitter('obama', n=1)
 
 ## now you can save oauth token for use in future sessions with twitteR or streamR
 save(my_oauth, file="backup/oauth_token.Rdata")
+
+## this is how we would load it in memory
+load("backup/oauth_token.Rdata")
 
 #####################################
 ### COLLECTING USER INFORMATION   ###
