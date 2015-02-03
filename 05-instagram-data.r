@@ -15,12 +15,16 @@ install_github("pablobarbera/instaR/instaR")
 library(instaR)
 
 ## Creating an OAuth token
-source("priv/api-keys.r")
+instagram_app_id = "XXXXXXXXXXXX"
+instagram_app_secret = "XXXXXXXXXXXX"
 token <- instaOAuth(app_id=instagram_app_id,
                     app_secret=instagram_app_secret)
 
 ## for instructions on how to create yours
 ?instaOAuth
+
+## save oauth token
+save(token, file="backup/instagram-token.Rdata")
 
 ## Loading backup token for presentation
 load("backup/instagram-token.Rdata")
@@ -45,8 +49,10 @@ euromaidan[which.max(euromaidan$comments_count),]
 ### SEARCH FOR PICTURES FROM A GIVEN LOCATION      ###
 ######################################################
 
-madrid <- searchInstagram(lat=40.4169, lng=3.7036, distance=500, 
-    token=token, n=100, folder="madrid")
+# pictures around the Georgetown area
+gtown <- searchInstagram(lat=38.907609, lng=-77.072258, distance=500, 
+    token=token, n=100, folder="gtown")
+
 
 getCommonHashtags(madrid$caption)
 
@@ -66,6 +72,7 @@ wh[which.max(wh$comments_count),]
 
 getTagCount("euromaidan", token)
 getTagCount("occupygezi", token)
+getTagCount("selfie", token)
 
 
 

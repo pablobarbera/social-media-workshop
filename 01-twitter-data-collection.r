@@ -32,9 +32,6 @@ authURL <- "https://api.twitter.com/oauth/authorize"
 consumerKey <- "XXXXXXXXXXXX"
 consumerSecret <- "YYYYYYYYYYYYYYYYYYY"
 
-# loading my API keys
-source("priv/api-keys.r")
-
 my_oauth <- OAuthFactory$new(consumerKey=consumerKey,
   consumerSecret=consumerSecret, requestURL=requestURL,
   accessURL=accessURL, authURL=authURL)
@@ -144,7 +141,7 @@ filterStream(file.name="political_tweets.json",
 ## instead. In other words, we can set a geographical box and collect
 ## only the tweets that are coming from that area.
 
-## For example, imagine we want to collect tweets from the Arabian Peninsula.
+## For example, imagine we want to collect tweets from the United States.
 ## The way to do it is to find two pairs of coordinates (longitude and latitude)
 ## that indicate the southwest corner AND the northeast corner.
 ## (NOTE THE REVERSE ORDER, IT'S NOT LAT, LONG BUT LONG, LAT)

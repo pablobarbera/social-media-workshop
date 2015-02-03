@@ -1,7 +1,7 @@
 WORKSHOP: Collecting and Analyzing Social Media Data with R
 --------------
 
-This github repository contains the materials and slides that I prepared for the 2-hour workshop on social media data analysis I gave at Georgetown University on February 2nd, 2015.
+This github repository contains the materials and slides that I prepared for the 2-hour workshop on social media data analysis I gave as part of the Introduction to Data Science course at Georgetown University on February 2nd, 2015.
 
 The purpose of the workshop was to provide an overview of the available tools to interact with the public APIs of the three most popular social media websites - Twitter, Facebook, and Instagram - and to illustrate potential applications relevant to the social sciences.
 

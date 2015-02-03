@@ -22,13 +22,12 @@ library(Rfacebook)
 
 fb_oauth = 'XXXXXXXYYYYYYZZZZZZ11111'
 
-# loading my API keys
-source("priv/api-keys.r")
-
 ## Now try running the following line:
 getUsers("me", token=fb_oauth, private_info=TRUE)
 
 ## Does it return your Facebook public information? Yes? Then we're ready to go
+
+## See also ?fbOAuth for information on how to get a long-lived OAuth token
 
 ################################################
 ### SCRAPING INFORMATION FROM FACEBOOK PAGES ###

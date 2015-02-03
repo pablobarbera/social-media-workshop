@@ -11,9 +11,11 @@ setwd("~/Dropbox/git/social-media-workshop")
 ### SCRAPING LIST OF MEMBERS OF CONGRESS  	###
 ###############################################
 
-# reading additional functions and API keys
+# reading additional functions
 source("functions.r")
-source("priv/api-keys.r")
+
+# get your API key here: http://developer.nytimes.com
+api_key = 'XXXXXXXX'
 
 # scraping NYT API 
 house <- scrape_nytimes_congress_api(api_key, chamber="house")
@@ -24,7 +26,7 @@ table(congress$facebook_account=="")
 
 # keeping only members of congress with FB accounts
 congress <- congress[congress$facebook_account!="",]
-write.csv(congress, file="data/congress.csv", row.names=FALSE)
+write.csv(congress, file="backup/congress.csv", row.names=FALSE)
 
 
 ###########################################################
@@ -162,7 +164,7 @@ trms[22,] # "illegal" immigration
 
 # merging with Congress data:
 # 1) reading congress data
-congress <- read.csv("data/congress.csv", stringsAsFactors=F)
+congress <- read.csv("backup/congress.csv", stringsAsFactors=F)
 # 2) reading list of files
 accounts <- tolower(gsub(".csv", "", list.files("data/facebook")))
 # 3) keeping members of congress with data
