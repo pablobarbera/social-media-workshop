@@ -44,6 +44,9 @@ library(twitteR)
 registerTwitterOAuth(my_oauth)
 searchTwitter('obama', n=1)
 
+## from a Windows machine:
+# searchTwitter("obama", cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+
 ## now you can save oauth token for use in future sessions with twitteR or streamR
 save(my_oauth, file="backup/oauth_token.Rdata")
 
@@ -58,14 +61,23 @@ library(twitteR)
 
 # profile information
 user <- getUser('barackobama')
+# from a Windows machine
+# user <- getUser('barackobama', cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+
 user$toDataFrame()
 
 # followers
 user$getFollowers(n=10)
 # (10 most recent followers)
 
+# from a Windows machine
+# user$getFollowers(n=10, cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+
 # friends (who they follow)
 user$getFriends(n=10)
+
+# from a Windows machine
+# user$getFriends(n=10, cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
 
 # see also smappR package (https://github.com/SMAPPNYU/smappR) for additional
 # functions to download users' data for a large number of users
@@ -76,6 +88,10 @@ user$getFriends(n=10)
 
 # basic searches by keywords
 tweets <- searchTwitter("obama", n=20)
+
+# from a Windows machine
+# tweets <- searchTwitter("obama", n=20, cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+
 # convert to data frame
 tweets <- twListToDF(tweets)
 
@@ -84,6 +100,12 @@ tweets <- searchTwitter("#APSA2014")
 tweets <- searchTwitter("#PoliSciNSF")
 tweets <- twListToDF(tweets)
 tweets$created
+
+# from a Windows machine
+# tweets <- searchTwitter("#APSA2014", cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+# tweets <- searchTwitter("#PoliSciNSF", cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+# tweets <- twListToDF(tweets)
+# tweets$created
 
 #############################################
 ### DOWNLOADING RECENT TWEETS FROM A USER ###
@@ -94,6 +116,10 @@ tweets$created
 
 ## you can do this with twitteR
 timeline <- userTimeline('nytimes', n=20)
+
+# from a Windows machine
+# timeline <- userTimeline('nytimes', n=20, cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+
 timeline <- twListToDF(timeline)
 
 ## but I have written my own function so that I can store the raw JSON data
