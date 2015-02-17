@@ -6,12 +6,13 @@
 ################################################################
 
 setwd("~/Dropbox/git/social-media-workshop")
+#I just edited this
 
 ## INSTALLING PACKAGES THAT WE WILL USE TODAY
 doInstall <- TRUE  # Change to FALSE if you don't want packages installed.
 toInstall <- c("ROAuth", "twitteR", "streamR", "ggplot2", "stringr",
 	"tm", "RCurl", "maps", "Rfacebook", "topicmodels", "devtools")
-if(doInstall){install.packages(toInstall, repos = "http://cran.r-project.org")}
+
 
 
 #####################################
@@ -39,19 +40,26 @@ my_oauth <- OAuthFactory$new(consumerKey=consumerKey,
 ## run this line and go to the URL that appears on screen
 my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
 
+## now you can save oauth token for use in future sessions with twitteR or streamR
+save(my_oauth, file="backup/oauth_token.Rdata")
+
+### NOTE (added February 17, 2015)
+### The twitteR package just changed its authentication method
+### (streamR remains the same)
+### New code to authenticate with twitteR now requires access token and access secret,
+### which can be found in 'Keys and Access Tokens' tab in apps.twitter.com
+
+accessToken = 'ZZZZZZZZZZZZZZ'
+accessSecret = 'AAAAAAAAAAAAAAAAAA'
+
 ## testing that it works
 library(twitteR)
-registerTwitterOAuth(my_oauth)
+setup_twitter_oauth(consumer_key=consumerKey, consumer_secret=consumerSecret,
+	access_token=accessToken, access_secret=accessSecret)
 searchTwitter('obama', n=1)
 
 ## from a Windows machine:
 # searchTwitter("obama", cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-
-## now you can save oauth token for use in future sessions with twitteR or streamR
-save(my_oauth, file="backup/oauth_token.Rdata")
-
-## this is how we would load it in memory
-load("backup/oauth_token.Rdata")
 
 #####################################
 ### COLLECTING USER INFORMATION   ###
