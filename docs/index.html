@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="readings.html">Readings</a>
+</li>
+<li>
+  <a href="code.html">Code</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/pablobarbera/social-media-workshop">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div class="container">
+<div class="jumbotron" style="margin-left:-15px">
+<h1 class="title">
+Workshop
+</h1>
+<h2 class="subtitle">
+Collecting and Analyzing Social Media Data with R
+</h2>
+<p>
+University of Cologne, December 18th 2017
+</p>
+</div>
+</div>
+<p>Citizens across the globe spend an increasing proportion of their daily lives on social media websites, such as Twitter and Facebook. Their activities leave behind granular, time-stamped footprints of human behavior and personal interactions that represent a new and exciting source of data to study standing questions about political and social behavior. At the same time, the volume and heterogeneity of social media data present unprecedented methodological challenges. The goal of this workshop is to gain the skills necessary to automate the process of downloading, cleaning, and analyzing social media data using the R programming language for statistical computing.</p>
+<p>The workshop follows a “learning-by-doing” approach, with short guided coding sessions followed by data challenges that will prompt participants to practice what they just learned. Most of the applications will be related to Political Science and International Relations questions, but the course should be of interest to social science students more generally.</p>
+<div id="instructor" class="section level1">
+<h1>Instructor</h1>
+<table class="table table-striped">
+<tr>
+<td>
+<a href="http://www.pablobarbera.com"><strong>Pablo Barberá</strong></a>
+</td>
+<td>
+<a href="mailto:pbarbera@usc.edu">pbarbera@usc.edu</a>
+</td>
+<td>
+<a href="https://www.twitter.com/p_barbera"><span class="citation">@p_barbera</span></a>
+</td>
+</tr>
+</table>
+</div>
+<div id="schedule" class="section level1">
+<h1>Schedule</h1>
+<table class="table table-striped table-hover">
+<tr>
+<td>
+<b>Session 1</b>
+</td>
+<td>
+December 18, 2017
+</td>
+<td>
+3:00–4:30 pm
+</td>
+</tr>
+<tr>
+<td>
+<b>Session 2</b>
+</td>
+<td>
+December 18, 2017
+</td>
+<td>
+5:00–6:30 pm
+</td>
+</tr>
+</table>
+</div>
+<div id="prerequisites" class="section level1">
+<h1>Prerequisites</h1>
+<p>The workshop assumes familiarity with the R statistical programming language. Participants should be able to know how to read datasets in R, work with vectors and data frames, and run basic statistical analyses, such as linear regression. More advanced knowledge of statistical computing, such as writing functions and loops, is helpful but not required.</p>
+<p>Students are expected to bring a laptop to class and follow along the coding section of each session.</p>
+</div>
+<div id="structure" class="section level1">
+<h1>Structure</h1>
+<p>The workshop is divided into two sessions. The first session begins with a discussion of how social media sites represent a new source of data to study human behavior, and an overview of the research opportunities and challenges of using social media data in the social sciences. We will then discuss the data available through Twitter’s REST and Streaming API. As part of the guided coding block within this session, we will learn how to collect tweets filtered by keywords, location, and language in real time; and how to analyze the data to find the most mentioned hashtags and users and to map the location of the tweets.</p>
+<p>The second session will demonstrate how to collect data from Twitter’s REST API, including user profiles and tweets, user networks, recent tweets filtered using keywords, and user lists. We will also learn how to scrape public Facebook pages through the Graph API, and the information that is available for each post and user. As an illustration of how to analyze twees and Facebook posts collected with these methods, we will use a dictionary method to characterize politicians’ rhetoric on social media.</p>
+</div>
+<div id="software" class="section level1">
+<h1>Software</h1>
+<p>This course will use <a href="https://www.r-project.org/">R</a>, which is a free and open-source programming language primarily used for statistics and data analysis. We will also use <a href="https://www.rstudio.com/">RStudio</a>, which is an easy-to-use interface to R.</p>
+<p>Installing R or RStudio prior to the workshop is not necessary. The instructor will provide individual login details to an RStudio Server that all workshop participants can access to run their code.</p>
+</div>
+<div id="license-and-credit" class="section level1">
+<h1>License and credit</h1>
+<p>Science should be open, and this course builds up other open licensed material, so unless otherwise noted, all materials for this class are licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+<p>The layout for this website was designed by <a href="http://www.jrnold.me/">Jeffrey Arnold</a> (thanks!).</p>
+<p>The source for the materials of this course is on GitHub at <a href="https://github.com/pablobarbera/social-media-workshop">pablobarbera/social-media-workshop</a></p>
+</div>
+<div id="feedback" class="section level1">
+<h1>Feedback</h1>
+<p>If you have any feedback on the course or find any typos or errors in this website go to <a href="https://github.com/pablobarbera/social-media-workshop/issues">issues</a>, click on the “New Issue” button to create a new issue, and add your suggestion or describe the problem.</p>
+</div>
+
+<footer class="footer" id="copyright">
+  <div class="container">
+      <p class="text-muted">
+          © Jeffrey Arnold, 2016, <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+      </p>
+  </div>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

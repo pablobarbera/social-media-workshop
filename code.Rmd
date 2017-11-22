@@ -1,0 +1,51 @@
+---
+title: Code
+---
+
+The following list provides links to the code used in the guided coding sessions. Note this is work in progress! The code will be updated before the workshop. The solutions to the challenges will be made available through RStudio Server.
+
+<div class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h2 id="session1" class="panel-title">
+<a data-toggle="collapse" href="#collapse2">Session 1: Twitter's Streaming API.</a>
+</h2>
+</div>
+<div id="collapse2" class="panel-collapse collapse in" style="margin:12px">
+
+<ul>
+
+<li><p><a href="code/00-setup.html">Introduction to RMarkdown and Setup</a> (<a href="code/00-setup.Rmd">.Rmd file</a>)</p>
+</li>
+<li><p><a href="code/01-twitter-streaming-data-collection.html">Collecting Twitter data from the Streaming API</a> (<a href="code/01-twitter-streaming-data-collection.Rmd">.Rmd file</a>)</p>
+</li>
+<li><p><a href="challenges/challenge1.Rmd">Coding challenge 1 (.Rmd file)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h2 id="week-3" class="panel-title">
+<a data-toggle="collapse" href="#collapse3">Session 2: Twitter's REST API and Facebook's Graph API.</a>
+</h2>
+</div>
+<div id="collapse3" class="panel-collapse collapse in" style="margin:12px">
+
+<ul>
+<li><p><a href="code/02-twitter-REST-data-collection.html">Collecting Twitter data from the REST API</a> (<a href="code/02-twitter-REST-data-collection.Rmd">.Rmd file</a>)</p>
+</li>
+<li><p><a href="code/03-facebook-data-collection.html">Collecting Facebook data from the Graph API</a> (<a href="code/03-facebook-data-collection.Rmd">.Rmd file</a>)</p>
+</li>
+<li><p><a href="code/04-dictionary-analysis.html">Application: Dictionary methods applied to sentiment analysis</a> (<a href="code/04-dictionary-analysis.Rmd">.Rmd file</a>)</p>
+</li>
+<li><p><a href="challenges/challenge2.Rmd">Coding challenge 2 (.Rmd file)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+

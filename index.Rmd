@@ -1,0 +1,78 @@
+---
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+---
+
+<div class="container">
+<div class="jumbotron" style="margin-left:-15px">
+<h1 class="title">Workshop</h1>
+<h2 class="subtitle">Collecting and Analyzing Social Media Data with R</h2>
+<p>University of Cologne, December 18th 2017</p>
+</div>
+</div>
+
+Citizens across the globe spend an increasing proportion of their daily lives on social media websites, such as Twitter and Facebook. Their activities leave behind granular, time-stamped footprints of human behavior and personal interactions that represent a new and exciting source of data to study standing questions about political and social behavior. At the same time, the volume and heterogeneity of social media data present unprecedented methodological challenges. The goal of this workshop is to gain the skills necessary to automate the process of downloading, cleaning, and analyzing social media data using the R programming language for statistical computing.
+
+The workshop follows a "learning-by-doing" approach, with short guided coding sessions followed by data challenges that will prompt participants to practice what they just learned. Most of the applications will be related to Political Science and International Relations questions, but the course should be of interest to social science students more generally.
+
+# Instructor
+
+<table class = "table table-striped">
+<tr>
+<td><a href="http://www.pablobarbera.com"><strong>Pablo Barberá</strong></a></td>
+<td><a href="mailto:pbarbera@usc.edu">pbarbera@usc.edu</a></td>
+<td><a href="https://www.twitter.com/p_barbera">@p_barbera</a></td>
+</tr>
+</table>
+
+
+# Schedule
+
+<table class = "table table-striped table-hover">
+<tr>
+<td><b>Session 1</b></td>
+<td>December 18, 2017</td>
+<td> 3:00&ndash;4:30 pm </td>
+</tr>
+<tr>
+<td><b>Session 2</b></td>
+<td>December 18, 2017</td>
+<td> 5:00&ndash;6:30 pm </td>
+</tr>
+</table>
+
+
+# Prerequisites
+
+The workshop assumes familiarity with the R statistical programming language. Participants should be able to know how to read datasets in R, work with vectors and data frames, and run basic statistical analyses, such as linear regression. More advanced knowledge of statistical computing, such as writing functions and loops, is helpful but not required.
+
+Students are expected to bring a laptop to class and follow along the coding section of each session.
+
+
+# Structure
+
+The workshop is divided into two sessions. The first session begins with a discussion of how social media sites represent a new source of data to study human behavior, and an overview of the research opportunities and challenges of using social media data in the social sciences. We will then discuss the data available through Twitter's REST and Streaming API. As part of the guided coding block within this session, we will learn how to collect tweets filtered by keywords, location, and language in real time; and how to analyze the data to find the most mentioned hashtags and users and to map the location of the tweets.
+
+The second session will demonstrate how to collect data from Twitter's REST API, including user profiles and tweets, user networks, recent tweets filtered using keywords, and user lists. We will also learn how to scrape public Facebook pages through the Graph API, and the information that is available for each post and user. As an illustration of how to analyze twees and Facebook posts collected with these methods, we will use a dictionary method to characterize politicians' rhetoric on social media.
+
+# Software 
+
+This course will use [R](https://www.r-project.org/), which is a free and open-source programming language primarily used for statistics and data analysis. We will also use [RStudio](https://www.rstudio.com/), which is an easy-to-use interface to R. 
+
+Installing R or RStudio prior to the workshop is not necessary. The instructor will provide individual login details to an RStudio Server that all workshop participants can access to run their code.
+
+# License and credit
+
+Science should be open, and this course builds up other open licensed material, so unless otherwise noted, all materials for this class are licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
+The layout for this website was designed by [Jeffrey Arnold](http://www.jrnold.me/) (thanks!).
+
+The source for the materials of this course is on GitHub at <a href="https://github.com/pablobarbera/social-media-workshop">pablobarbera/social-media-workshop</a>
+
+# Feedback
+
+If you have any feedback on the course or find any typos or errors in this website go to [issues](https://github.com/pablobarbera/social-media-workshop/issues), click on the "New Issue" button to create a new issue, and add your suggestion or describe the problem.
+
+

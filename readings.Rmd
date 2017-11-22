@@ -1,0 +1,79 @@
+---
+title: Course outline and readings
+---
+
+<div class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+
+<h2 id="key" class="panel-title">
+<a data-toggle="collapse" href="#collapse1">Key background readings</a>
+</h2>
+</div>
+<div id="collapse1" class="panel-collapse collapse in" style="margin:12px">
+
+<ul>
+<li><p>Klašnja, M., Barberá, P., Beauchamp, N., Nagler, J., & Tucker, J. (2016). <a href="http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780190213299.001.0001/oxfordhb-9780190213299-e-3">Measuring public opinion with social media data</a>. In <i>The Oxford Handbook of Polling and Survey Methods.</i></p></li>
+<li><p>Ruths, D., & Pfeffer, J. (2014). <a href="http://science.sciencemag.org/content/346/6213/1063.full">Social media for large studies of behavior</a>. <i>Science</i>, 346(6213), 1063-1064.</p></li>
+<li><p>Tucker, J. A., Theocharis, Y., Roberts, M. E., & Barberá, P. (2017). <a href="https://www.journalofdemocracy.org/sites/default/files/Tucker-28-4.pdf">From Liberation to Turmoil: Social Media And Democracy</a>. <i>Journal of Democracy</i>, 28(4), 46-59.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h2 id="recommended" class="panel-title">
+<a data-toggle="collapse" href="#collapse2">Other recommended readings</a>
+</h2>
+</div>
+<div id="collapse2" class="panel-collapse collapse in" style="margin:12px">
+
+<ul>
+<li><p>Barberá, P. (2014). <a href="https://www.cambridge.org/core/journals/political-analysis/article/div-classtitlebirds-of-the-same-feather-tweet-together-bayesian-ideal-point-estimation-using-twitter-datadiv/91E37205F69AEA32EF27F12563DC2A0A">Birds of the same feather tweet together: Bayesian ideal point estimation using Twitter data.</a> <i>Political Analysis</i>, 23(1), 76-91.</p>
+</li>
+
+<li><p>Beauchamp, N. (2017). <a href="http://onlinelibrary.wiley.com/doi/10.1111/ajps.12274/full">Predicting and Interpolating State‐Level Polls Using Twitter Textual Data</a>. American Journal of Political Science, 61(2), 490-503.</p></li>
+
+<li><p>Golder, S. A., & Macy, M. W. (2014). <a href="http://www.annualreviews.org/doi/full/10.1146/annurev-soc-071913-043145">Digital footprints: Opportunities and challenges for online social research.</a> <i>Annual Review of Sociology</i>, 40(1), 129.</p>
+</li>
+
+<li><p>Kramer, A. D., Guillory, J. E., & Hancock, J. T. (2014). <a href="http://www.pnas.org/content/111/24/8788.short">Experimental evidence of massive-scale emotional contagion through social networks.</a> <i>Proceedings of the National Academy of Sciences</i>, 111(24), 8788-8790.<p>
+</li>
+
+<li><p>Jäger, K. (2017). <a href="https://www.cambridge.org/core/journals/political-analysis/article/potential-of-online-sampling-for-studying-political-activists-around-the-world-and-across-time/8F6159C4242EA2F443E2B0DACC0DA9F0">The potential of online sampling for studying political activists around the world and across time</a>. <i>Political Analysis</i>, 1-15.</p></li>
+
+<li><p>King, G., Pan, J., & Roberts, M. E. (2014). <a href="http://scholar.harvard.edu/files/gking/files/experiment_0.pdf">Reverse-engineering censorship in China: Randomized experimentation and participant observation</a>. <i>Science</i>, 345(6199), 1251722.</p>
+</li>
+
+
+<li><p>Lazer, D. & and Radford, J. (2017). <a href="http://www.annualreviews.org/doi/abs/10.1146/annurev-soc-060116-053457">Data ex Machina: Introduction to Big Data.</a> <i>Annual Review of Sociology</i>.</p>
+</li>
+<li><p>Lazer, D., Pentland, A. S., Adamic, L., Aral, S., Barabasi, A. L., Brewer, D., ... & Jebara, T. (2009). <a href="http://fowler.ucsd.edu/computational_social_science.pdf">Life in the network: the coming age of computational social science</a>. <i>Science</i>, 323(5915), 721-3.</p>
+</li>
+
+<li><p>Salganik, M. (2017). <a href="http://www.bitbybitbook.com/">Bit by Bit: Social Research in the Digital Age.</a> Princeton, NJ: Princeton University Press. Open review edition.</p>
+</li>
+
+<li><p>Steinert-Threlkeld, Z. (2017, forthcoming) <a href="https://www.cambridge.org/core/elements/twitter-as-data/27B3DE20C22E12E162BFB173C5EB2592">Twitter as Data</a>. Cambridge University Press.<p></li>
+
+<li><p>Theocharis, Y., Barberá, P., Fazekas, Z., Popa, S. A. and Parnet, O. (2016), <a href="http://onlinelibrary.wiley.com/doi/10.1111/jcom.12259/abstract">A Bad Workman Blames His Tweets: The Consequences of Citizens' Uncivil Twitter Use When Interacting With Party Candidates</a>. <i>Journal of Communication</i>, 66: 1007–1031.</p>
+</li>
+
+<li><p>Tufekci, Z. (2014). <a href="https://www.aaai.org/ocs/index.php/ICWSM/ICWSM14/paper/viewFile/8062/8151">Big Questions for Social Media Big Data: Representativeness, Validity and Other Methodological Pitfalls</a>. <i>ICWSM</i>, 14, 505-514.<p>
+</li>
+
+
+
+</ul>
+
+</div>
+</div>
+</div>
+
+
+
+
+

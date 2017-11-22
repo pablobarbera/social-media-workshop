@@ -1,0 +1,34 @@
+name: "Social Media Workshop"
+exclude: ["README.md", "bib/*", "data"]
+output_dir: "docs"
+navbar:
+  title: "Social Media Workshop"
+  left:
+    - text: "Overview"
+      href: "index.html"
+    - text: "Readings"
+      href: "readings.html"
+    - text: "Code"
+      href: "code.html"
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/pablobarbera/social-media-workshop
+
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    css: styles.css
+    self_contained: false
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+    html5: true
+    md_extensions: "+raw_html+header_attributes"
+    pandoc_args: [
+    ]
+    includes:
+      in_header: include/in_header.html
+      after_body: include/after_body.html
+      before_body: include/before_body.html
