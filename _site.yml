@@ -8,7 +8,7 @@ navbar:
       href: "index.html"
     - text: "Readings"
       href: "readings.html"
-    - text: "Code"
+    - text: "Code & Slides"
       href: "code.html"
   right:
     - icon: fa-github fa-lg
