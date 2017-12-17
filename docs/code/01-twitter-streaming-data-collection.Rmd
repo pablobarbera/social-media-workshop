@@ -1,0 +1,202 @@
+---
+title: "Scraping data from Twitter's Streaming API"
+author: "Pablo Barbera"
+date: "December 18, 2017"
+output: html_document
+---
+
+#### Authenticating
+
+Before we can start collecting Twitter data, we need to create an OAuth token that will allow us to authenticate our connection and access our personal data.
+
+Follow these steps to create your token:
+
+1. Go to apps.twitter.com and sign in.  
+2. Click on "Create New App". You will need to have a phone number associated with your account in order to be able to create a token.  
+3. Fill name, description, and website (it can be anything, even http://www.google.com). Make sure you leave 'Callback URL' empty.
+4. Agree to user conditions.  
+5. From the "Keys and Access Tokens" tab, copy consumer key and consumer secret and paste below
+
+```{r, eval=FALSE}
+library(ROAuth)
+requestURL <- "https://api.twitter.com/oauth/request_token"
+accessURL <- "https://api.twitter.com/oauth/access_token"
+authURL <- "https://api.twitter.com/oauth/authorize"
+consumerKey <- "YOUR_CONSUMER_KEY"
+consumerSecret <- "YOUR_CONSUMER_SECRET"
+
+my_oauth <- OAuthFactory$new(consumerKey=consumerKey,
+  consumerSecret=consumerSecret, requestURL=requestURL,
+  accessURL=accessURL, authURL=authURL)
+```
+
+What can go wrong here? Make sure the consumer key and consumer secret are pasted here as is, without any additional space character. If you don't see any output in the console after running the code above, that's a good sign.
+
+Run the below line and go to the URL that appears on screen. Then, type the PIN into the console (RStudio sometimes doesn't show what you're typing, but it's there!)
+
+```{r, eval=FALSE}
+my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+```
+
+Now you can save oauth token for use in future sessions with netdemR or streamR. Make sure you save it in a folder where this is the only file.
+
+```{r, eval=FALSE}
+save(my_oauth, file="../credentials/twitter-token.Rdata")
+```
+
+#### Collecting data from Twitter's Streaming API
+
+Collecting tweets filtering by keyword:
+
+```{r}
+library(streamR)
+load("../credentials/twitter-token.Rdata")
+filterStream(file.name="../data/trump-tweets.json", track="trump", 
+    timeout=20, oauth=my_oauth)
+```
+
+Note the options:
+- `file.name` indicates the file in your disk where the tweets will be downloaded  
+- `track` is the keyword(s) mentioned in the tweets we want to capture.
+- `timeout` is the number of seconds that the connection will remain open  
+- `oauth` is the OAuth token we are using
+
+Once it has finished, we can open it in R as a data frame with the `parseTweets` function
+```{r}
+tweets <- parseTweets("../data/trump-tweets.json")
+tweets[1,]
+```
+
+If we want, we could also export it to a csv file to be opened later with Excel
+```{r}
+write.csv(tweets, file="../data/trump-tweets.csv", row.names=FALSE)
+```
+
+And this is how we would capture tweets mentioning multiple keywords:
+```{r, eval=FALSE}
+filterStream(file.name="../data/politics-tweets.json", 
+	track=c("graham", "sessions", "trump", "clinton"),
+    tweets=20, oauth=my_oauth)
+```
+
+Note that here I choose a different option, `tweets`, which indicates how many tweets (approximately) the function should capture before we close the connection to the Twitter API.
+
+This second example shows how to collect tweets filtering by location instead. In other words, we can set a geographical box and collect only the tweets that are coming from that area.
+
+For example, imagine we want to collect tweets from the United States. The way to do it is to find two pairs of coordinates (longitude and latitude) that indicate the southwest corner AND the northeast corner. Note the reverse order: it's not (lat, long), but (long, lat).
+
+In the case of the US, it would be approx. (-125,25) and (-66,50). How to find these coordinates? I use: `http://itouchmap.com/latlong.html`
+
+```{r}
+filterStream(file.name="../data/tweets_geo.json", locations=c(-125, 25, -66, 50), 
+    timeout=30, oauth=my_oauth)
+```
+
+We can do as before and open the tweets in R
+```{r}
+tweets <- parseTweets("../data/tweets_geo.json")
+```
+
+And use the maps library to see where most tweets are coming from. Note that there are two types of geographic information on tweets: `lat`/`lon` (from geolocated tweets) and `place_lat` and `place_lon` (from tweets with place information). We will work with whatever is available.
+
+```{r}
+library(maps)
+tweets$lat <- ifelse(is.na(tweets$lat), tweets$place_lat, tweets$lat)
+tweets$lon <- ifelse(is.na(tweets$lon), tweets$place_lon, tweets$lon)
+states <- map.where("state", tweets$lon, tweets$lat)
+head(sort(table(states), decreasing=TRUE))
+```
+
+We can also prepare a map of the exact locations of the tweets.
+
+```{r, fig.height=6, fig.width=10}
+library(ggplot2)
+
+## First create a data frame with the map data 
+map.data <- map_data("state")
+
+# And we use ggplot2 to draw the map:
+# 1) map base
+ggplot(map.data) + geom_map(aes(map_id = region), map = map.data, fill = "grey90", 
+    color = "grey50", size = 0.25) + expand_limits(x = map.data$long, y = map.data$lat) + 
+    # 2) limits for x and y axis
+    scale_x_continuous(limits=c(-125,-66)) + scale_y_continuous(limits=c(25,50)) +
+    # 3) adding the dot for each tweet
+    geom_point(data = tweets, 
+    aes(x = lon, y = lat), size = 1, alpha = 1/5, color = "darkblue") +
+    # 4) removing unnecessary graph elements
+    theme(axis.line = element_blank(), 
+    	axis.text = element_blank(), 
+    	axis.ticks = element_blank(), 
+        axis.title = element_blank(), 
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank()) 
+```
+
+And here's how to extract the edges of a network of retweets (at least one possible way of doing it):
+
+```{r}
+tweets <- parseTweets("../data/trump-tweets.json")
+# subset only RTs
+rts <- tweets[grep("RT @", tweets$text),]
+
+edges <- data.frame(
+  node1 = rts$screen_name,
+  node2 = gsub('.*RT @([a-zA-Z0-9_]+):? ?.*', rts$text, repl="\\1"),
+  stringsAsFactors=F
+)
+
+library(igraph)
+g <- graph_from_data_frame(d=edges, directed=TRUE)
+
+```
+
+Finally, it's also possible to collect a random sample of tweets. That's what the "sampleStream" function does:
+
+```{r}
+sampleStream(file.name="../data/tweets_random.json", timeout=30, oauth=my_oauth)
+```
+
+Here I'm collecting 30 seconds of tweets. And once again, to open the tweets in R...
+```{r}
+tweets <- parseTweets("../data/tweets_random.json")
+```
+
+What is the most retweeted tweet?
+```{r}
+tweets[which.max(tweets$retweet_count),]
+```
+
+What are the most popular hashtags at the moment? We'll use regular expressions to extract hashtags.
+```{r}
+library(stringr)
+ht <- str_extract_all(tweets$text, "#(\\d|\\w)+")
+ht <- unlist(ht)
+head(sort(table(ht), decreasing = TRUE))
+```
+
+And who are the most frequently mentioned users?
+
+```{r}
+users <- str_extract_all(tweets$text, '@[a-zA-Z0-9_]+')
+users <- unlist(users)
+head(sort(table(users), decreasing = TRUE))
+```
+
+How many tweets mention Justin Bieber?
+```{r}
+length(grep("bieber", tweets$text, ignore.case=TRUE))
+```
+
+These are toy examples, but for large files with tweets in JSON format, there might be faster ways to parse the data. For example, the `ndjson` package offers a robust and fast way to parse JSON data:
+
+```{r}
+library(ndjson)
+json <- stream_in("../data/tweets_geo.json")
+json
+```
+
+Now it's your turn to practice! Let's do our first challenge of today's workshop.

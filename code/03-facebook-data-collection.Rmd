@@ -1,0 +1,162 @@
+---
+title: "Scraping data from Facebook"
+author: "Pablo Barbera"
+date: "December 18, 2017"
+output: html_document
+---
+
+### Scraping web data from Facebook
+
+To scrape data from Facebook's API, we'll use the `Rfacebook` package.
+
+```{r}
+library(Rfacebook)
+```
+
+To get access to the Facebook API, you need an OAuth code. You can get yours going to the following URL: [https://developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer)
+
+Once you're there:  
+1. Click on "Get Access Token"  
+2. Copy the long code ("Access Token") and paste it here below, substituting the fake one I wrote:
+
+```{r}
+fb_oauth = 'EAACEdEose0cBAKsf0F6y6MN1MyFUVD1bOQasjzwY046ZAWPQsQ359xlG64jX3LcveTNjm68EOSZAHrLh3EiAODnwZC6lEKnNnDyHAyGYddplhabyZA6K7JO9Glys6gN45NnYySYO4lGy5bJhbdW01jx3FxRAO8udNzoNqOidp2U9TkwteXAGuEG2I6q22q0ZD'
+```
+
+Now try running the following line:
+```{r}
+getUsers("me", token=fb_oauth, private_info=TRUE)
+```
+
+Does it return your Facebook public information? Yes? Then we're ready to go. See also `?fbOAuth` for information on how to get a long-lived OAuth token.
+
+At the moment, the only information that can be scraped from Facebook is the content of public pages. 
+
+The following line downloads the ~200 most recent posts on the facebook page of Donald Trump
+```{r}
+page <- getPage("DonaldTrump", token=fb_oauth, n=20, reactions=TRUE, api="v2.9") 
+```
+
+What information is available for each of these posts?
+```{r}
+page[1,]
+```
+
+Which post got more likes, more comments, and more shares?
+```{r}
+page[which.max(page$likes_count),]
+page[which.max(page$comments_count),]
+page[which.max(page$shares_count),]
+```
+
+What about other reactions?
+```{r}
+page[which.max(page$love_count),]
+page[which.max(page$haha_count),]
+page[which.max(page$wow_count),]
+page[which.max(page$sad_count),]
+page[which.max(page$angry_count),]
+```
+
+
+Let's do another example, looking at the Facebook page of Political Analysis:
+
+```{r}
+page <- getPage("104544669596569", token=fb_oauth, n=100, reactions=TRUE, api="v2.9") 
+# most popular posts
+page[which.max(page$likes_count),]
+page[which.max(page$comments_count),]
+page[which.max(page$shares_count),]
+
+```
+
+We can also subset by date. For example, imagine we want to get all the posts from early November 2012 on Barack Obama's Facebook page
+
+```{r}
+page <- getPage("barackobama", token=fb_oauth, n=100,
+	since='2012/11/01', until='2012/11/10')
+page[which.max(page$likes_count),]
+
+```
+
+And if we need to, we can also extract the specific comments from each post.
+
+```{r}
+post_id <- page$id[which.max(page$likes_count)]
+post <- getPost(post_id, token=fb_oauth, n.comments=1000, likes=FALSE)
+```
+
+This is how you can view those comments:
+```{r}
+comments <- post$comments
+head(comments)
+```
+
+Also, note that users can like comments! What is the comment that got the most likes?
+```{r}
+comments[which.max(comments$likes_count),]
+```
+
+This is how you get nested comments:
+
+```{r}
+page <- getPage("barackobama", token=fb_oauth, n=1)
+post <- getPost(page$id, token=fb_oauth, comments=TRUE, n=100, likes=FALSE)
+comment <- getCommentReplies(post$comments$id[1],
+                             token=fb_oauth, n=500, likes=TRUE)
+```
+
+If we want to scrape an entire page that contains many posts, given that the API can sometimes give an error, it is a good idea to embed the function within a loop and collect the data by month.
+
+```{r, eval=FALSE}
+# list of dates to sample
+dates <- seq(as.Date("2011/01/01"), as.Date("2017/08/01"), by="3 months")
+n <- length(dates)-1
+df <- list()
+# loop over months
+for (i in 1:n){
+    message(as.character(dates[i]))
+    df[[i]] <- getPage("GameOfThrones", token=fb_oauth, n=1000, since=dates[i],
+    	until=dates[i+1], verbose=FALSE)
+    Sys.sleep(0.5)
+}
+df <- do.call(rbind, df)
+write.csv(df, file="../data/gameofthrones.csv", row.names=FALSE)
+```
+
+And we can then look at the popularity over time:
+
+```{r}
+library(netdemR)
+library(stringr)
+library(reshape2)
+df <- read.csv("../data/gameofthrones.csv", stringsAsFactors=FALSE)
+# parse date into month
+df$month <- df$created_time %>% str_sub(1, 7) %>% paste0("-01") %>% as.Date()
+# computing average by month
+metrics <- aggregate(cbind(likes_count, comments_count, shares_count) ~ month,
+          data=df, FUN=mean)
+# reshaping into long format
+metrics <- melt(metrics, id.vars="month")
+# visualize evolution in metric
+library(ggplot2)
+library(scales)
+ggplot(metrics, aes(x = month, y = value, group = variable)) + 
+  geom_line(aes(color = variable)) + 
+    scale_x_date(date_breaks = "years", labels = date_format("%Y")) + 
+  scale_y_log10("Average count per post", 
+    breaks = c(10, 100, 1000, 10000, 100000, 200000), labels=scales::comma) + 
+  theme_bw() + theme(axis.title.x = element_blank())
+
+```
+
+Just like public Facebook pages, the data from public groups can also be easily downloaded with the getGroup function.
+
+```{r}
+group <- getGroup("150048245063649", token=fb_oauth, n=50)
+
+```
+
+Now let's turn to our last challenge of the day...
+
+

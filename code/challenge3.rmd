@@ -1,0 +1,33 @@
+---
+title: "Challenge 3"
+author: Pablo Barbera
+date: December 17, 2017
+output: html_document
+---
+
+The purpose of this challenge is to analyze the Facebook posts of the two candidates for president in the 2016 US election. Let's start by scraping all the posts from each candidate's page between July 1st, 2016 and November 10, 2016. Note that this can take a couple of minutes.
+
+```{r}
+
+```
+
+Let's start with an analysis on their relative popularity. How many likes, comments, and shares did each of these candidates receive on their posts, on average? Who appeared to be more popular?
+
+
+```{r}
+
+```
+
+We'll now try to examine to what extent these candidates had a loyal audience. One way to assess it is looking at the extent to which the same set of users were commenting different posts. Pick a random sample of 25 posts and download up to 10,000 likes for each post, using a loop that iterates over each post. Store this dataset in a list.
+
+```{r}
+
+```
+
+Then, join the elements of this list using the `unlist` function, and create a frequency table. How many unique users were actually liking these posts? Which number is higher? After controlling for the ratio of "returning" users, do you still find the same candidates to be the most popular?
+
+```{r}
+
+```
+
+

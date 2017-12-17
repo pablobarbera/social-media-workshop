@@ -1,0 +1,102 @@
+---
+title: "Application: Dictionary methods applied to sentiment analysis"
+author: Pablo Barbera
+date: December 18, 2017
+output: html_document
+---
+
+#### Dictionary methods
+
+A common and simple type of automated text analysis consists on the application of dictionary methods, or lexicon-based approaches to the measurement of tone or the prediction of diferent categories related to the content of the text. 
+
+One of these applications is sentiment analysis: using a dictionary of positive and negative words, we compute a sentiment score for each individual document.
+
+Let's apply this technique to tweets by the four leading candidates in the 2016 Presidential primaries, which I collected from the REST API
+
+```{r}
+library(quanteda)
+tweets <- read.csv('../data/candidate-tweets.csv', stringsAsFactors=F)
+```
+
+```{r}
+# loading lexicon of positive and negative words (from Neal Caren)
+lexicon <- read.csv("../data/lexicon.csv", stringsAsFactors=F)
+pos.words <- lexicon$word[lexicon$polarity=="positive"]
+neg.words <- lexicon$word[lexicon$polarity=="negative"]
+# a look at a random sample of positive and negative words
+sample(pos.words, 10)
+sample(neg.words, 10)
+```
+
+We will use the quanteda package to convert our text to a corpus object and detect whether each document mentions the words in the dictionary.
+
+```{r}
+twcorpus <- corpus(tweets$text)
+
+# first we construct a dictionary object
+mydict <- dictionary(list(negative = neg.words,
+                          positive = pos.words))
+# apply it to our corpus
+sent <- dfm(twcorpus, dictionary = mydict)
+# and add it as a new variable
+tweets$score <- as.numeric(sent[,2]) - as.numeric(sent[,1])
+```
+
+We're now ready to start analyzing the results:
+
+```{r}
+# what is the average sentiment score?
+mean(tweets$score)
+# what is the most positive and most negative tweet?
+tweets[which.max(tweets$score),]
+tweets[which.min(tweets$score),]
+# what is the proportion of positive, neutral, and negative tweets?
+tweets$sentiment <- "neutral"
+tweets$sentiment[tweets$score<0] <- "negative"
+tweets$sentiment[tweets$score>0] <- "positive"
+table(tweets$sentiment)
+```
+
+We can also disaggregate by groups of tweets, for example according to the party they mention.
+
+```{r}
+# loop over candidates
+candidates <- c("realDonaldTrump", "HillaryClinton", "tedcruz", "BernieSanders")
+
+for (cand in candidates){
+  message(cand, " -- average sentiment: ",
+      round(mean(tweets$score[tweets$screen_name==cand]), 4)
+    )
+}
+
+```
+
+A somewhat interesting result: what happens when we replicate the sentiment analysis above excluding the word "great"?
+
+
+```{r}
+# remove word "great" from dictionary
+lexicon <- lexicon[-which(lexicon$word=="great"),]
+
+pos.words <- lexicon$word[lexicon$polarity=="positive"]
+neg.words <- lexicon$word[lexicon$polarity=="negative"]
+
+twcorpus <- corpus(tweets$text)
+# first we construct a dictionary object
+mydict <- dictionary(list(negative = neg.words,
+                          positive = pos.words))
+# apply it to our corpus
+sent <- dfm(twcorpus, dictionary = mydict)
+# and add it as a new variable
+tweets$score <- as.numeric(sent[,2]) - as.numeric(sent[,1])
+
+# loop over candidates
+candidates <- c("realDonaldTrump", "HillaryClinton", "tedcruz", "BernieSanders")
+
+for (cand in candidates){
+  message(cand, " -- average sentiment: ",
+      round(mean(tweets$score[tweets$screen_name==cand]), 4)
+    )
+}
+
+```

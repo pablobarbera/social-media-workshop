@@ -55,7 +55,7 @@ Students are expected to bring a laptop to class and follow along the coding sec
 
 The workshop is divided into two sessions. The first session begins with a discussion of how social media sites represent a new source of data to study human behavior, and an overview of the research opportunities and challenges of using social media data in the social sciences. We will then discuss the data available through Twitter's REST and Streaming API. As part of the guided coding block within this session, we will learn how to collect tweets filtered by keywords, location, and language in real time; and how to analyze the data to find the most mentioned hashtags and users and to map the location of the tweets.
 
-The second session will demonstrate how to collect data from Twitter's REST API, including user profiles and tweets, user networks, recent tweets filtered using keywords, and user lists. We will also learn how to scrape public Facebook pages through the Graph API, and the information that is available for each post and user. As an illustration of how to analyze twees and Facebook posts collected with these methods, we will use a dictionary method to characterize politicians' rhetoric on social media.
+The second session will demonstrate how to collect data from Twitter's REST API, including user profiles and tweets, user networks, recent tweets filtered using keywords, and user lists. We will also learn how to scrape public Facebook pages through the Graph API, and the information that is available for each post and user. As an illustration of how to analyze tweets and Facebook posts collected with these methods, we will use a dictionary method to characterize politicians' rhetoric on social media.
 
 # Software 
 

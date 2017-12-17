@@ -11,7 +11,5 @@ slides/*.png
 *.toc
 *.nav
 *.gz
-data/*
-users*
-pew*
-ohio.pdf
+.DS_Store
+credentials/*

@@ -1,0 +1,42 @@
+---
+title: "Challenge 1"
+author: Pablo Barbera
+date: December 17, 2017
+output: html_document
+---
+
+Now it's your turn to practice! Open a connection to the Streaming API and collect a sample of tweets based on keywords that you find interesting. Keep it open for about a minute.
+
+```{r}
+
+```
+
+Then, read it in R and check who are the most popular users and which hashtags were used the most during this period. What do you find?
+
+```{r}
+
+```
+
+We'll now turn to an analyis of geolocated tweets. Use the itouchmap website to identify a set of coordinates that would include most of Europe. Then, open a connection to the Streaming API and connect one minute of Twitter data from within the bounding box defined by this set of coordinates.
+
+
+```{r}
+
+```
+
+Using the data you just downloaded, prepare a frequency table that shows which European countries were most active on Twitter during that period. You can use similar code to what we just used (see lines 103 to 107 of 01-twitter-streaming-data-colllection.Rmd), but change `map.where("state"...` to `map.where("world"...` .
+
+```{r}
+
+
+```
+
+(Optional) Finally, try to produce a map of Europe that displays the exact location of the tweets. (You may want to collect an additional minute or two of data, to make it less sparse.) You can use similar code as the script I just mentioned, but make sure you switch to a map of the world and then subset the x and y axis so that only Europe is shown in the plot.
+
+```{r}
+
+
+```
+
+
+

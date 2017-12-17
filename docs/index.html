@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
@@ -35,10 +35,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -373,7 +375,7 @@ December 18, 2017
 <div id="structure" class="section level1">
 <h1>Structure</h1>
 <p>The workshop is divided into two sessions. The first session begins with a discussion of how social media sites represent a new source of data to study human behavior, and an overview of the research opportunities and challenges of using social media data in the social sciences. We will then discuss the data available through Twitter’s REST and Streaming API. As part of the guided coding block within this session, we will learn how to collect tweets filtered by keywords, location, and language in real time; and how to analyze the data to find the most mentioned hashtags and users and to map the location of the tweets.</p>
-<p>The second session will demonstrate how to collect data from Twitter’s REST API, including user profiles and tweets, user networks, recent tweets filtered using keywords, and user lists. We will also learn how to scrape public Facebook pages through the Graph API, and the information that is available for each post and user. As an illustration of how to analyze twees and Facebook posts collected with these methods, we will use a dictionary method to characterize politicians’ rhetoric on social media.</p>
+<p>The second session will demonstrate how to collect data from Twitter’s REST API, including user profiles and tweets, user networks, recent tweets filtered using keywords, and user lists. We will also learn how to scrape public Facebook pages through the Graph API, and the information that is available for each post and user. As an illustration of how to analyze tweets and Facebook posts collected with these methods, we will use a dictionary method to characterize politicians’ rhetoric on social media.</p>
 </div>
 <div id="software" class="section level1">
 <h1>Software</h1>

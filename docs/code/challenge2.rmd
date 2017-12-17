@@ -1,0 +1,30 @@
+---
+title: "Challenge 2"
+author: Pablo Barbera
+date: December 17, 2017
+output: html_document
+---
+
+Turning to the REST API, collect the 2,000 most recent tweets from a Twitter account that you find relevant.
+
+```{r}
+
+```
+
+Using the code we just used, look at the most popular hashtags used by that account. What do you learn?
+
+```{r}
+
+
+```
+
+Produce a word cloud of this set of tweets to look at what are the words most frequently used by this user.
+
+
+```{r}
+
+```
+
+
+
+
