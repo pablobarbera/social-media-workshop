@@ -13,3 +13,4 @@ slides/*.png
 *.gz
 .DS_Store
 credentials/*
+*.Rhistory
