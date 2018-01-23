@@ -9,7 +9,7 @@ output:
 <div class="jumbotron" style="margin-left:-15px">
 <h1 class="title">Workshop</h1>
 <h2 class="subtitle">Collecting and Analyzing Social Media Data with R</h2>
-<p>University of Cologne, December 18th 2017</p>
+<p>London School of Economics, January 24th 2018</p>
 </div>
 </div>
 
@@ -22,7 +22,7 @@ The workshop follows a "learning-by-doing" approach, with short guided coding se
 <table class = "table table-striped">
 <tr>
 <td><a href="http://www.pablobarbera.com"><strong>Pablo Barberá</strong></a></td>
-<td><a href="mailto:pbarbera@usc.edu">pbarbera@usc.edu</a></td>
+<td><a href="mailto:P.Barbera@lse.ac.uk">P.Barbera@lse.ac.uk</a></td>
 <td><a href="https://www.twitter.com/p_barbera">@p_barbera</a></td>
 </tr>
 </table>
@@ -33,13 +33,13 @@ The workshop follows a "learning-by-doing" approach, with short guided coding se
 <table class = "table table-striped table-hover">
 <tr>
 <td><b>Session 1</b></td>
-<td>December 18, 2017</td>
-<td> 3:00&ndash;4:30 pm </td>
+<td>January 24, 2018</td>
+<td> 10&ndash;12:00 </td>
 </tr>
 <tr>
 <td><b>Session 2</b></td>
-<td>December 18, 2017</td>
-<td> 5:00&ndash;6:30 pm </td>
+<td>January 24, 2018</td>
+<td> 14&ndash;16:00 </td>
 </tr>
 </table>
 

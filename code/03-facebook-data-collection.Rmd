@@ -1,7 +1,7 @@
 ---
 title: "Scraping data from Facebook"
 author: "Pablo Barbera"
-date: "December 18, 2017"
+date: "January 23, 2018"
 output: html_document
 ---
 
@@ -20,7 +20,7 @@ Once you're there:
 2. Copy the long code ("Access Token") and paste it here below, substituting the fake one I wrote:
 
 ```{r}
-fb_oauth = 'EAACEdEose0cBAKsf0F6y6MN1MyFUVD1bOQasjzwY046ZAWPQsQ359xlG64jX3LcveTNjm68EOSZAHrLh3EiAODnwZC6lEKnNnDyHAyGYddplhabyZA6K7JO9Glys6gN45NnYySYO4lGy5bJhbdW01jx3FxRAO8udNzoNqOidp2U9TkwteXAGuEG2I6q22q0ZD'
+fb_oauth = 'EAACEdEose0cBAFiPzcXyDLZBVaZCvUR0ZBq3yvKS0IOU01JgYCcYuRKV9xT33pTYZAZCtbdZCEMZAihqlZBGCexN5o7g2ZCgl72cLbJQzrR8ZCFZC8DPaUW5ZCCwHoxsZCRa9IhptCY2P0i3TJwBZC8yN979Mr41gfSF3CeejrRHNxiu6aPuWBcpOfBvp65ASclJ2CjFsZD'
 ```
 
 Now try running the following line:
@@ -127,7 +127,7 @@ write.csv(df, file="../data/gameofthrones.csv", row.names=FALSE)
 And we can then look at the popularity over time:
 
 ```{r}
-library(netdemR)
+library(tweetscores)
 library(stringr)
 library(reshape2)
 df <- read.csv("../data/gameofthrones.csv", stringsAsFactors=FALSE)

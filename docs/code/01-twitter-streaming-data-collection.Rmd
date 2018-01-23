@@ -1,7 +1,7 @@
 ---
 title: "Scraping data from Twitter's Streaming API"
 author: "Pablo Barbera"
-date: "December 18, 2017"
+date: "January 23, 2018"
 output: html_document
 ---
 
@@ -16,33 +16,34 @@ Follow these steps to create your token:
 3. Fill name, description, and website (it can be anything, even http://www.google.com). Make sure you leave 'Callback URL' empty.
 4. Agree to user conditions.  
 5. From the "Keys and Access Tokens" tab, copy consumer key and consumer secret and paste below
+6. Click on "Create my access token", then copy and paste your access token and access token secret below
 
 ```{r, eval=FALSE}
 library(ROAuth)
-requestURL <- "https://api.twitter.com/oauth/request_token"
-accessURL <- "https://api.twitter.com/oauth/access_token"
-authURL <- "https://api.twitter.com/oauth/authorize"
-consumerKey <- "YOUR_CONSUMER_KEY"
-consumerSecret <- "YOUR_CONSUMER_SECRET"
-
-my_oauth <- OAuthFactory$new(consumerKey=consumerKey,
-  consumerSecret=consumerSecret, requestURL=requestURL,
-  accessURL=accessURL, authURL=authURL)
+my_oauth <- list(consumer_key = "CONSUMER_KEY",
+   consumer_secret = "CONSUMER_SECRET",
+   access_token="ACCESS_TOKEN",
+   access_token_secret = "ACCESS_TOKEN_SECRET")
+save(my_oauth, file="~/my_oauth")
+```
+```{r}
+load("~/my_oauth")
 ```
 
-What can go wrong here? Make sure the consumer key and consumer secret are pasted here as is, without any additional space character. If you don't see any output in the console after running the code above, that's a good sign.
+What can go wrong here? Make sure all the consumer and token keys are pasted here as is, without any additional space character. If you don't see any output in the console after running the code above, that's a good sign.
 
-Run the below line and go to the URL that appears on screen. Then, type the PIN into the console (RStudio sometimes doesn't show what you're typing, but it's there!)
+Note that I saved the list as a file in my hard drive. That will save us some time later on, but you could also just re-run the code in lines 22 to 27 before conecting to the API in the future.
 
-```{r, eval=FALSE}
-my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+To check that it worked, try running the line below:
+
+```{r}
+library(tweetscores)
+getUsers(screen_names="LSEnews", oauth = my_oauth)[[1]]$screen_name
 ```
 
-Now you can save oauth token for use in future sessions with netdemR or streamR. Make sure you save it in a folder where this is the only file.
+If this displays `LSEnews` then we're good to go!
 
-```{r, eval=FALSE}
-save(my_oauth, file="../credentials/twitter-token.Rdata")
-```
+Some of the functions below will work with more than one token. If you want to save multiple tokens, see the instructions at the end of the file.
 
 #### Collecting data from Twitter's Streaming API
 
@@ -50,7 +51,6 @@ Collecting tweets filtering by keyword:
 
 ```{r}
 library(streamR)
-load("../credentials/twitter-token.Rdata")
 filterStream(file.name="../data/trump-tweets.json", track="trump", 
     timeout=20, oauth=my_oauth)
 ```
@@ -103,6 +103,7 @@ And use the maps library to see where most tweets are coming from. Note that the
 library(maps)
 tweets$lat <- ifelse(is.na(tweets$lat), tweets$place_lat, tweets$lat)
 tweets$lon <- ifelse(is.na(tweets$lon), tweets$place_lon, tweets$lon)
+tweets <- tweets[!is.na(tweets$lat),]
 states <- map.where("state", tweets$lon, tweets$lat)
 head(sort(table(states), decreasing=TRUE))
 ```
@@ -200,3 +201,42 @@ json
 ```
 
 Now it's your turn to practice! Let's do our first challenge of today's workshop.
+
+#### Creating more than one token
+
+The code below provides an alternative way to create an OAuth token that will allow you to save it to disk.
+
+Follow these steps to create your token:
+
+1. Go to apps.twitter.com and sign in.  
+2. Click on "Create New App". You will need to have a phone number associated with your account in order to be able to create a token.  
+3. Fill name, description, and website (it can be anything, even http://www.google.com). Make sure you leave 'Callback URL' empty.
+4. Agree to user conditions.  
+5. From the "Keys and Access Tokens" tab, copy consumer key and consumer secret and paste below
+
+```{r, eval=FALSE}
+library(ROAuth)
+requestURL <- "https://api.twitter.com/oauth/request_token"
+accessURL <- "https://api.twitter.com/oauth/access_token"
+authURL <- "https://api.twitter.com/oauth/authorize"
+consumerKey <- "YOUR_CONSUMER_KEY"
+consumerSecret <- "YOUR_CONSUMER_SECRET"
+
+my_oauth <- OAuthFactory$new(consumerKey=consumerKey,
+  consumerSecret=consumerSecret, requestURL=requestURL,
+  accessURL=accessURL, authURL=authURL)
+```
+
+What can go wrong here? Make sure the consumer key and consumer secret are pasted here as is, without any additional space character. If you don't see any output in the console after running the code above, that's a good sign.
+
+Run the below line and go to the URL that appears on screen. Then, type the PIN into the console (RStudio sometimes doesn't show what you're typing, but it's there!)
+
+```{r, eval=FALSE}
+my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+```
+
+Now you can save oauth token for use in future sessions with tweetscores or streamR. Make sure you save it in a folder where this is the only file.
+
+```{r, eval=FALSE}
+save(my_oauth, file="../credentials/twitter-token.Rdata")
+```

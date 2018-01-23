@@ -11,7 +11,7 @@
 
 <meta name="author" content="Pablo Barbera" />
 
-<meta name="date" content="2017-12-18" />
+<meta name="date" content="2018-01-23" />
 
 <title>Application: Dictionary methods applied to sentiment analysis</title>
 
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Application: Dictionary methods applied to sentiment analysis</h1>
 <h4 class="author"><em>Pablo Barbera</em></h4>
-<h4 class="date"><em>December 18, 2017</em></h4>
+<h4 class="date"><em>January 23, 2018</em></h4>
 
 </div>
 
@@ -146,14 +146,12 @@ pos.words &lt;- lexicon$word[lexicon$polarity==&quot;positive&quot;]
 neg.words &lt;- lexicon$word[lexicon$polarity==&quot;negative&quot;]
 # a look at a random sample of positive and negative words
 sample(pos.words, 10)</code></pre>
-<pre><code>##  [1] &quot;mightily&quot;        &quot;heroic&quot;          &quot;immaculate&quot;     
-##  [4] &quot;electrification&quot; &quot;sensations&quot;      &quot;eloquence&quot;      
-##  [7] &quot;foresight&quot;       &quot;better&quot;          &quot;perseverance&quot;   
-## [10] &quot;diligently&quot;</code></pre>
+<pre><code>##  [1] &quot;miraculous&quot;  &quot;authentic&quot;   &quot;placid&quot;      &quot;poignant&quot;    &quot;sensational&quot;
+##  [6] &quot;loyalty&quot;     &quot;goodwill&quot;    &quot;ingenuously&quot; &quot;intimate&quot;    &quot;pacifists&quot;</code></pre>
 <pre class="r"><code>sample(neg.words, 10)</code></pre>
-<pre><code>##  [1] &quot;threatening&quot;  &quot;melancholy&quot;   &quot;escapade&quot;     &quot;loathly&quot;     
-##  [5] &quot;subjugation&quot;  &quot;lackey&quot;       &quot;gripe&quot;        &quot;exasperation&quot;
-##  [9] &quot;misbehavior&quot;  &quot;contrary&quot;</code></pre>
+<pre><code>##  [1] &quot;hallucination&quot; &quot;glib&quot;          &quot;contamination&quot; &quot;tepid&quot;        
+##  [5] &quot;deteriorate&quot;   &quot;truant&quot;        &quot;bleak&quot;         &quot;infringements&quot;
+##  [9] &quot;audacious&quot;     &quot;accursed&quot;</code></pre>
 <p>We will use the quanteda package to convert our text to a corpus object and detect whether each document mentions the words in the dictionary.</p>
 <pre class="r"><code>twcorpus &lt;- corpus(tweets$text)
 

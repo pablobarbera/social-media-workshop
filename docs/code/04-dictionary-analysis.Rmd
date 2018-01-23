@@ -1,7 +1,7 @@
 ---
 title: "Application: Dictionary methods applied to sentiment analysis"
 author: Pablo Barbera
-date: December 18, 2017
+date: January 23, 2018
 output: html_document
 ---
 

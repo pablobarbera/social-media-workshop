@@ -1,26 +1,27 @@
 ---
 title: "Scraping data from Twitter's REST API"
 author: "Pablo Barbera"
-date: "December 18, 2017"
+date: "January 23, 2018"
 output: html_document
 ---
 
-We'll now turn to a different type of Twitter data -- static data, either recent tweets or user-level information. This type of data can be retrieved with Twitter's REST API. We will use the `netdemR` package here -- this is a package that we created in the NetDem lab at USC to facilitate the collection and analysis of Twitter data.
+We'll now turn to a different type of Twitter data -- static data, either recent tweets or user-level information. This type of data can be retrieved with Twitter's REST API. We will use the `tweetscores` package here -- this is a package that I created to facilitate the collection and analysis of Twitter data.
 
 ### Searching recent tweets
 
 It is possible to download recent tweets, but only up those less than 7 days old, and in some cases not all of them.
 
 ```{r}
-library(netdemR)
+load("~/my_oauth")
+library(tweetscores)
 library(streamR)
 
-searchTweets(q=c("doug jones", "roy moore"), 
-  filename="../data/alabama-tweets.json",
-  n=1000, until="2017-12-15", 
-  oauth_folder="../credentials")
+searchTweets(q=c("#TrumpShutdown", "#SchumerShutdown"), 
+  filename="../data/shutdown-tweets.json",
+  n=1000, until="2018-01-22", 
+  oauth=my_oauth)
 
-tweets <- parseTweets("../data/alabama-tweets.json")
+tweets <- parseTweets("../data/shutdown-tweets.json")
 ```
 
 What are the most popular hashtags?
@@ -40,7 +41,7 @@ This is how you would extract information from user profiles:
 ```{r}
 wh <- c("realDonaldTrump", "POTUS", "VP", "FLOTUS")
 users <- getUsersBatch(screen_names=wh,
-                       oauth_folder="../credentials")
+                       oauth=my_oauth)
 str(users)
 ```
 
@@ -52,8 +53,7 @@ users$screen_name[which.max(users$followers_count)]
 
 Download up to 3,200 recent tweets from a Twitter account:
 ```{r}
-getTimeline(filename="../data/realDonaldTrump.json", screen_name="realDonaldTrump", 
-    n=1000, oauth_folder="../credentials")
+getTimeline(filename="../data/realDonaldTrump.json", screen_name="realDonaldTrump", n=1000, oauth=my_oauth)
 ```
 
 What are the most common hashtags?
@@ -68,27 +68,44 @@ head(sort(table(ht), decreasing = TRUE))
 
 Download friends and followers:
 ```{r}
-followers <- getFollowers("BJPolS", 
-    oauth_folder="../credentials")
-friends <- getFriends("BJPolS", 
-    oauth_folder="../credentials")
+followers <- getFollowers("MethodologyLSE", 
+    oauth=my_oauth)
+friends <- getFriends("MethodologyLSE", 
+    oauth=my_oauth)
 ```
 
-What are the most common words that friends of the BJPS Twitter account use to describe themselves on Twitter?
+What are the most common words that friends of the LSE Methodology Twitter account use to describe themselves on Twitter?
 
 ```{r, fig.height=6, fig.width=6}
 # extract profile descriptions
-users <- getUsersBatch(ids=friends, oauth_folder="../credentials")
+users <- getUsersBatch(ids=friends, oauth=my_oauth)
 # create table with frequency of word use
 library(quanteda)
 tw <- corpus(users$description[users$description!=""])
 dfm <- dfm(tw, remove=c(stopwords("english"), stopwords("spanish"),
                                  "t.co", "https", "rt", "rts", "http"),
            remove_punct=TRUE)
+topfeatures(dfm, n = 30)
 # create wordcloud
 par(mar=c(0,0,0,0))
-textplot_wordcloud(dfm, rot.per=0, scale=c(3, .50), max.words=100)
+textplot_wordcloud(dfm, rot.per=0, scale=c(2.5, .25), max.words=100)
 
+```
+
+### Estimating ideology based on Twitter networks
+
+The `tweetscores` package also includes functions to replicate the method developed in the Political Analysis paper [__Birds of a Feather Tweet Together. Bayesian Ideal Point Estimation Using Twitter Data__](https://doi.org/10.1093/pan/mpu011). For an application of this method, see also [this Monkey Cage blog post](http://www.washingtonpost.com/blogs/monkey-cage/wp/2015/06/16/who-is-the-most-conservative-republican-candidate-for-president/).
+
+```{r}
+# download list of friends for an account
+user <- "p_barbera"
+friends <- getFriends(user, oauth=my_oauth)
+# estimating ideology with MCMC methods
+results <- estimateIdeology(user, friends, verbose=FALSE)
+# trace plot to monitor convergence
+tracePlot(results, "theta")
+# comparing with other ideology estimates
+plot(results)
 ```
 
 ### Other types of data
@@ -98,7 +115,7 @@ The REST API offers also a long list of other endpoints that could be of use at 
 1) You can search users related to specific keywords:
 
 ```{r}
-users <- searchUsers(q="political science", count=100, oauth_folder="../credentials")
+users <- searchUsers(q="london school of economics", count=100, oauth=my_oauth)
 users$screen_name[1:10]
 ```
 
@@ -108,7 +125,7 @@ users$screen_name[1:10]
 # Downloading tweets when you know the ID
 getStatuses(ids=c("474134260149157888", "266038556504494082"),
             filename="../data/old-tweets.json",
-            oauth_folder="../credentials")
+            oauth=my_oauth)
 parseTweets("../data/old-tweets.json")
 ```
 
@@ -117,7 +134,7 @@ parseTweets("../data/old-tweets.json")
 ```{r}
 # download user information from a list
 MCs <- getList(list_name="new-members-of-congress", 
-               screen_name="cspan", oauth_folder="../credentials")
+               screen_name="cspan", oauth=my_oauth)
 head(MCs)
 ```
 
@@ -127,9 +144,9 @@ This is also useful if e.g. you're interested in compiling lists of journalists,
 
 ```{r}
 # Download list of users who retweeted a tweet (unfortunately, only up to 100)
-rts <- getRetweets(id='942123433873281024', oauth_folder="../credentials")
+rts <- getRetweets(id='942123433873281024', oauth=my_oauth)
 # https://twitter.com/realDonaldTrump/status/942123433873281024
-users <- getUsersBatch(ids=rts, oauth_folder="../credentials")
+users <- getUsersBatch(ids=rts, oauth=my_oauth)
 # create table with frequency of word use
 library(quanteda)
 tw <- corpus(users$description[users$description!=""])
@@ -138,7 +155,7 @@ dfm <- dfm(tw, remove=c(stopwords("english"), stopwords("spanish"),
            remove_punct = TRUE)
 # create wordcloud
 par(mar=c(0,0,0,0))
-textplot_wordcloud(dfm, rot.per=0, scale=c(5, .50), max.words=100)
+textplot_wordcloud(dfm, rot.per=0, scale=c(3, .50), max.words=100)
 ```
 
 5) And one final function to convert dates in their internal Twitter format to another format we could work with in R:

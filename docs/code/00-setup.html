@@ -11,7 +11,7 @@
 
 <meta name="author" content="Pablo Barbera" />
 
-<meta name="date" content="2017-12-18" />
+<meta name="date" content="2018-01-23" />
 
 <title>RStudio and RMarkdown</title>
 
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">RStudio and RMarkdown</h1>
 <h4 class="author"><em>Pablo Barbera</em></h4>
-<h4 class="date"><em>December 18, 2017</em></h4>
+<h4 class="date"><em>January 23, 2018</em></h4>
 
 </div>
 
@@ -146,11 +146,12 @@ plot(x, y)</code></pre>
 <p>We will be exploring R through R Markdown over the next few modules. For more details and documentation see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
 <p>If you are running this script in your own computer, you will have to run the chunk below in order to install all the R packages we will use throughout today. (Note that this may take a while!)</p>
 <pre class="r"><code>doInstall &lt;- TRUE  # Change to FALSE if you don't want packages installed.
-toInstall &lt;- c(&quot;ROAuth&quot;, &quot;streamR&quot;, &quot;Rfacebook&quot;, &quot;stringr&quot;, &quot;httr&quot;, &quot;devtools&quot;,
+toInstall &lt;- c(&quot;ROAuth&quot;, &quot;Rfacebook&quot;, &quot;stringr&quot;, &quot;httr&quot;, &quot;devtools&quot;,
                &quot;maps&quot;, &quot;igraph&quot;, &quot;ggplot2&quot;, &quot;quanteda&quot;, &quot;reshape2&quot;, &quot;scales&quot;, 
                &quot;ndjson&quot;)
 if (doInstall) install.packages(toInstall)
-if (doInstall) devtools::install_github(&quot;netdem-USC/netdemR&quot;)</code></pre>
+if (doInstall) devtools::install_github(&quot;pablobarbera/twitter_ideology/pkg/tweetscores&quot;)
+if (doInstall) devtools::install_github(&quot;pablobarbera/streamR/streamR&quot;)</code></pre>
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: "Challenge 2"
 author: Pablo Barbera
-date: December 17, 2017
+date: January 23, 2018
 output: html_document
 ---
 
@@ -20,11 +20,14 @@ Using the code we just used, look at the most popular hashtags used by that acco
 
 Produce a word cloud of this set of tweets to look at what are the words most frequently used by this user.
 
-
 ```{r}
 
 ```
 
+Estimate the political ideology of this user. Then, find the five screen names most frequently mentioned by this user and estimate their political ideology too. Are they all similar? (Note that this method will only work for US-based accounts.)
 
+```{r}
+
+```
 
 

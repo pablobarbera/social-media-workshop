@@ -11,7 +11,7 @@
 
 <meta name="author" content="Pablo Barbera" />
 
-<meta name="date" content="2017-12-18" />
+<meta name="date" content="2018-01-23" />
 
 <title>Scraping data from Facebook</title>
 
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Scraping data from Facebook</h1>
 <h4 class="author"><em>Pablo Barbera</em></h4>
-<h4 class="date"><em>December 18, 2017</em></h4>
+<h4 class="date"><em>January 23, 2018</em></h4>
 
 </div>
 
@@ -142,7 +142,7 @@ $(document).ready(function () {
 <p>Once you’re there:<br />
 1. Click on “Get Access Token”<br />
 2. Copy the long code (“Access Token”) and paste it here below, substituting the fake one I wrote:</p>
-<pre class="r"><code>fb_oauth = 'EAACEdEose0cBAKsf0F6y6MN1MyFUVD1bOQasjzwY046ZAWPQsQ359xlG64jX3LcveTNjm68EOSZAHrLh3EiAODnwZC6lEKnNnDyHAyGYddplhabyZA6K7JO9Glys6gN45NnYySYO4lGy5bJhbdW01jx3FxRAO8udNzoNqOidp2U9TkwteXAGuEG2I6q22q0ZD'</code></pre>
+<pre class="r"><code>fb_oauth = 'EAACEdEose0cBAFiPzcXyDLZBVaZCvUR0ZBq3yvKS0IOU01JgYCcYuRKV9xT33pTYZAZCtbdZCEMZAihqlZBGCexN5o7g2ZCgl72cLbJQzrR8ZCFZC8DPaUW5ZCCwHoxsZCRa9IhptCY2P0i3TJwBZC8yN979Mr41gfSF3CeejrRHNxiu6aPuWBcpOfBvp65ASclJ2CjFsZD'</code></pre>
 <p>Now try running the following line:</p>
 <pre class="r"><code>getUsers(&quot;me&quot;, token=fb_oauth, private_info=TRUE)</code></pre>
 <pre><code>##          id          name username first_name middle_name last_name gender
@@ -157,130 +157,95 @@ $(document).ready(function () {
 <p>What information is available for each of these posts?</p>
 <pre class="r"><code>page[1,]</code></pre>
 <pre><code>##                               id likes_count      from_id       from_name
-## 1 153080620724_10160291114950725       28537 153080620724 Donald J. Trump
-##                                                                                                          message
-## 1 We need to put up GREAT Republican candidates to increase the razor thin margins in both the House and Senate.
+## 2 153080620724_10160456890500725       30190 153080620724 Donald J. Trump
+##                                                                                                                                                          message
+## 2 Join me for a few minutes, live - at H&amp;K Equipment in Coraopolis, Pennsylvania! TAX CUTS, TAX CUTS, TAX CUTS! Together, WE are all MAKING AMERICA GREAT AGAIN!
 ##               created_time  type
-## 1 2017-12-13T16:43:39+0000 photo
-##                                                                                                       link
-## 1 https://www.facebook.com/DonaldTrump/photos/a.488852220724.393301.153080620724/10160291113195725/?type=3
-##   story comments_count shares_count love_count haha_count wow_count
-## 1  &lt;NA&gt;           5168         1480       2690        923        50
-##   sad_count angry_count
-## 1        20         150</code></pre>
+## 2 2018-01-18T20:11:27+0000 video
+##                                                             link
+## 2 https://www.facebook.com/DonaldTrump/videos/10160456890500725/
+##                                                story comments_count
+## 2 Donald J. Trump was live — at H&amp;K Equipment, Inc..          10895
+##   shares_count love_count haha_count wow_count sad_count angry_count
+## 2         3578         NA         NA        NA        NA          NA</code></pre>
 <p>Which post got more likes, more comments, and more shares?</p>
 <pre class="r"><code>page[which.max(page$likes_count),]</code></pre>
-<pre><code>##                               id likes_count      from_id       from_name
-## 2 153080620724_10160291602310725       46548 153080620724 Donald J. Trump
-##                                                                                                        message
-## 2 Much of Mainstream Media has become a joke! Hence my use of Social Media, the only way to get the TRUTH out!
-##               created_time  type
-## 2 2017-12-13T18:41:25+0000 video
-##                                                             link story
-## 2 https://www.facebook.com/DonaldTrump/videos/10160291602310725/  &lt;NA&gt;
-##   comments_count shares_count love_count haha_count wow_count sad_count
-## 2          10930         5348       5154       1847       172       196
-##   angry_count
-## 2         375</code></pre>
+<pre><code>##                                id likes_count      from_id       from_name
+## 10 153080620724_10160465024010725      120389 153080620724 Donald J. Trump
+##                                                           message
+## 10 AMERICA FIRST!\xed\xa0\xbc\xed\xb7\xba\xed\xa0\xbc\xed\xb7\xb8
+##                created_time  type
+## 10 2018-01-20T14:38:18+0000 photo
+##                                                                                                        link
+## 10 https://www.facebook.com/DonaldTrump/photos/a.488852220724.393301.153080620724/10160465019575725/?type=3
+##    story comments_count shares_count love_count haha_count wow_count
+## 10  &lt;NA&gt;          11343        12721         NA         NA        NA
+##    sad_count angry_count
+## 10        NA          NA</code></pre>
 <pre class="r"><code>page[which.max(page$comments_count),]</code></pre>
-<pre><code>##                               id likes_count      from_id       from_name
-## 2 153080620724_10160291602310725       46548 153080620724 Donald J. Trump
-##                                                                                                        message
-## 2 Much of Mainstream Media has become a joke! Hence my use of Social Media, the only way to get the TRUTH out!
-##               created_time  type
-## 2 2017-12-13T18:41:25+0000 video
-##                                                             link story
-## 2 https://www.facebook.com/DonaldTrump/videos/10160291602310725/  &lt;NA&gt;
-##   comments_count shares_count love_count haha_count wow_count sad_count
-## 2          10930         5348       5154       1847       172       196
-##   angry_count
-## 2         375</code></pre>
+<pre><code>##                                id likes_count      from_id       from_name
+## 15 153080620724_10160467189520725       68921 153080620724 Donald J. Trump
+##                                                                                                                                        message
+## 15 Chuck Schumer and the Democrats continue to put the interests of illegal immigrants over those of Americans!\n\n#MAGA #MakeAmericaSafeAgain
+##                created_time  type
+## 15 2018-01-20T21:51:14+0000 video
+##                                                              link story
+## 15 https://www.facebook.com/DonaldTrump/videos/10160467189520725/  &lt;NA&gt;
+##    comments_count shares_count love_count haha_count wow_count sad_count
+## 15          18281        28905         NA         NA        NA        NA
+##    angry_count
+## 15          NA</code></pre>
 <pre class="r"><code>page[which.max(page$shares_count),]</code></pre>
-<pre><code>##                               id likes_count      from_id       from_name
-## 2 153080620724_10160291602310725       46548 153080620724 Donald J. Trump
-##                                                                                                        message
-## 2 Much of Mainstream Media has become a joke! Hence my use of Social Media, the only way to get the TRUTH out!
-##               created_time  type
-## 2 2017-12-13T18:41:25+0000 video
-##                                                             link story
-## 2 https://www.facebook.com/DonaldTrump/videos/10160291602310725/  &lt;NA&gt;
-##   comments_count shares_count love_count haha_count wow_count sad_count
-## 2          10930         5348       5154       1847       172       196
-##   angry_count
-## 2         375</code></pre>
+<pre><code>##                                id likes_count      from_id       from_name
+## 15 153080620724_10160467189520725       68921 153080620724 Donald J. Trump
+##                                                                                                                                        message
+## 15 Chuck Schumer and the Democrats continue to put the interests of illegal immigrants over those of Americans!\n\n#MAGA #MakeAmericaSafeAgain
+##                created_time  type
+## 15 2018-01-20T21:51:14+0000 video
+##                                                              link story
+## 15 https://www.facebook.com/DonaldTrump/videos/10160467189520725/  &lt;NA&gt;
+##    comments_count shares_count love_count haha_count wow_count sad_count
+## 15          18281        28905         NA         NA        NA        NA
+##    angry_count
+## 15          NA</code></pre>
 <p>What about other reactions?</p>
 <pre class="r"><code>page[which.max(page$love_count),]</code></pre>
-<pre><code>##                                id likes_count      from_id       from_name
-## 15 153080620724_10160303173555725       18396 153080620724 Donald J. Trump
-##                                                                                                              message
-## 15 Tune in! My campaign team is talking about our winning strategy to make America SAFER, STRONGER, and more SECURE.
-##                created_time  type
-## 15 2017-12-16T00:32:06+0000 video
-##                                                              link
-## 15 https://www.facebook.com/DonaldTrump/videos/10160303173555725/
-##                        story comments_count shares_count love_count
-## 15 Donald J. Trump was live.          10267         2831       5455
-##    haha_count wow_count sad_count angry_count
-## 15        367        60        38         427</code></pre>
+<pre><code>##  [1] id             likes_count    from_id        from_name     
+##  [5] message        created_time   type           link          
+##  [9] story          comments_count shares_count   love_count    
+## [13] haha_count     wow_count      sad_count      angry_count   
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <pre class="r"><code>page[which.max(page$haha_count),]</code></pre>
-<pre><code>##                               id likes_count      from_id       from_name
-## 2 153080620724_10160291602310725       46548 153080620724 Donald J. Trump
-##                                                                                                        message
-## 2 Much of Mainstream Media has become a joke! Hence my use of Social Media, the only way to get the TRUTH out!
-##               created_time  type
-## 2 2017-12-13T18:41:25+0000 video
-##                                                             link story
-## 2 https://www.facebook.com/DonaldTrump/videos/10160291602310725/  &lt;NA&gt;
-##   comments_count shares_count love_count haha_count wow_count sad_count
-## 2          10930         5348       5154       1847       172       196
-##   angry_count
-## 2         375</code></pre>
+<pre><code>##  [1] id             likes_count    from_id        from_name     
+##  [5] message        created_time   type           link          
+##  [9] story          comments_count shares_count   love_count    
+## [13] haha_count     wow_count      sad_count      angry_count   
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <pre class="r"><code>page[which.max(page$wow_count),]</code></pre>
-<pre><code>##                               id likes_count      from_id       from_name
-## 2 153080620724_10160291602310725       46548 153080620724 Donald J. Trump
-##                                                                                                        message
-## 2 Much of Mainstream Media has become a joke! Hence my use of Social Media, the only way to get the TRUTH out!
-##               created_time  type
-## 2 2017-12-13T18:41:25+0000 video
-##                                                             link story
-## 2 https://www.facebook.com/DonaldTrump/videos/10160291602310725/  &lt;NA&gt;
-##   comments_count shares_count love_count haha_count wow_count sad_count
-## 2          10930         5348       5154       1847       172       196
-##   angry_count
-## 2         375</code></pre>
+<pre><code>##  [1] id             likes_count    from_id        from_name     
+##  [5] message        created_time   type           link          
+##  [9] story          comments_count shares_count   love_count    
+## [13] haha_count     wow_count      sad_count      angry_count   
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <pre class="r"><code>page[which.max(page$sad_count),]</code></pre>
-<pre><code>##                                id likes_count      from_id       from_name
-## 19 153080620724_10160310250500725        6444 153080620724 Donald J. Trump
-##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              message
-## 19 Our thoughts and prayers are with everyone in California. Please consider donating to one of the below organizations to help those in the path of the wildfire:\n\n· American Red Cross: www.redcross.org/about-us/our-work/disaster-relief/wildfire-relief \n· The Salvation Army: www.salvationarmy-socal.org \n· Humane Society of Ventura County: www.hsvc.org \n· Thomas Fire Fund: www.unitedwayla.org/ventura_county_thomas_fire \n· Ventura County Community Foundation: vccf.org/donate/make-a-donation/
-##                created_time  type
-## 19 2017-12-17T14:59:46+0000 video
-##                                                              link story
-## 19 https://www.facebook.com/DonaldTrump/videos/10160310250500725/  &lt;NA&gt;
-##    comments_count shares_count love_count haha_count wow_count sad_count
-## 19           1828          659        491         76        33       597
-##    angry_count
-## 19          64</code></pre>
+<pre><code>##  [1] id             likes_count    from_id        from_name     
+##  [5] message        created_time   type           link          
+##  [9] story          comments_count shares_count   love_count    
+## [13] haha_count     wow_count      sad_count      angry_count   
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <pre class="r"><code>page[which.max(page$angry_count),]</code></pre>
-<pre><code>##                               id likes_count      from_id       from_name
-## 7 153080620724_10160296776845725       31131 153080620724 Donald J. Trump
-##                                                                                                                                                                                                                                                                                   message
-## 7 Today, we gathered in the Roosevelt Room for one single reason: to CUT THE RED TAPE! For many decades, an ever-growing maze of regs, rules, and restrictions has cost our country trillions of dollars, millions of jobs, countless American factories, &amp; devastated entire industries.
-##               created_time  type
-## 7 2017-12-14T22:16:22+0000 video
-##                                                             link story
-## 7 https://www.facebook.com/DonaldTrump/videos/10160296776845725/  &lt;NA&gt;
-##   comments_count shares_count love_count haha_count wow_count sad_count
-## 7           3648         3425       4445        228       119        20
-##   angry_count
-## 7         489</code></pre>
+<pre><code>##  [1] id             likes_count    from_id        from_name     
+##  [5] message        created_time   type           link          
+##  [9] story          comments_count shares_count   love_count    
+## [13] haha_count     wow_count      sad_count      angry_count   
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <p>Let’s do another example, looking at the Facebook page of Political Analysis:</p>
 <pre class="r"><code>page &lt;- getPage(&quot;104544669596569&quot;, token=fb_oauth, n=100, reactions=TRUE, api=&quot;v2.9&quot;) </code></pre>
 <pre><code>## 25 posts 50 posts 75 posts 100 posts</code></pre>
 <pre class="r"><code># most popular posts
 page[which.max(page$likes_count),]</code></pre>
 <pre><code>##                                  id likes_count         from_id
-## 25 104544669596569_1603451839705837          55 104544669596569
+## 25 104544669596569_1603451839705837          56 104544669596569
 ##             from_name
 ## 25 Political Analysis
 ##                                                                                                                                                                                                                                                                                                                                                                                                                                                                              message
@@ -327,9 +292,9 @@ page[which.max(page$likes_count),]</code></pre>
 ##                                                                                                   link
 ## 4 https://www.facebook.com/barackobama/photos/a.53081056748.66806.6815841748/10151255420886749/?type=3
 ##                             id story likes_count comments_count
-## 4 6815841748_10151255420886749  &lt;NA&gt;     4822189         218715
+## 4 6815841748_10151255420886749  &lt;NA&gt;     4819658         218575
 ##   shares_count
-## 4       658516</code></pre>
+## 4       658102</code></pre>
 <p>And if we need to, we can also extract the specific comments from each post.</p>
 <pre class="r"><code>post_id &lt;- page$id[which.max(page$likes_count)]
 post &lt;- getPost(post_id, token=fb_oauth, n.comments=1000, likes=FALSE)</code></pre>
@@ -373,51 +338,21 @@ for (i in 1:n){
     df[[i]] &lt;- getPage(&quot;GameOfThrones&quot;, token=fb_oauth, n=1000, since=dates[i],
         until=dates[i+1], verbose=FALSE)
     Sys.sleep(0.5)
-}</code></pre>
-<pre><code>## 2011-01-01</code></pre>
-<pre><code>## 2011-04-01</code></pre>
-<pre><code>## 2011-07-01</code></pre>
-<pre><code>## 2011-10-01</code></pre>
-<pre><code>## 2012-01-01</code></pre>
-<pre><code>## 2012-04-01</code></pre>
-<pre><code>## 2012-07-01</code></pre>
-<pre><code>## 2012-10-01</code></pre>
-<pre><code>## 2013-01-01</code></pre>
-<pre><code>## 2013-04-01</code></pre>
-<pre><code>## 2013-07-01</code></pre>
-<pre><code>## 2013-10-01</code></pre>
-<pre><code>## 2014-01-01</code></pre>
-<pre><code>## 2014-04-01</code></pre>
-<pre><code>## 2014-07-01</code></pre>
-<pre><code>## 2014-10-01</code></pre>
-<pre><code>## 2015-01-01</code></pre>
-<pre><code>## 2015-04-01</code></pre>
-<pre><code>## 2015-07-01</code></pre>
-<pre><code>## 2015-10-01</code></pre>
-<pre><code>## 2016-01-01</code></pre>
-<pre><code>## 2016-04-01</code></pre>
-<pre><code>## 2016-07-01</code></pre>
-<pre><code>## 2016-10-01</code></pre>
-<pre><code>## 2017-01-01</code></pre>
-<pre><code>## 2017-04-01</code></pre>
-<pre class="r"><code>df &lt;- do.call(rbind, df)
+}
+df &lt;- do.call(rbind, df)
 write.csv(df, file=&quot;../data/gameofthrones.csv&quot;, row.names=FALSE)</code></pre>
 <p>And we can then look at the popularity over time:</p>
-<pre class="r"><code>library(netdemR)</code></pre>
-<pre><code>## Loading required package: ROAuth</code></pre>
-<pre><code>## Loading required package: jsonlite</code></pre>
-<pre><code>## 
-## Attaching package: 'jsonlite'</code></pre>
-<pre><code>## The following objects are masked from 'package:rjson':
-## 
-##     fromJSON, toJSON</code></pre>
+<pre class="r"><code>library(tweetscores)</code></pre>
+<pre><code>## Loading required package: R2WinBUGS</code></pre>
+<pre><code>## Loading required package: coda</code></pre>
+<pre><code>## Loading required package: boot</code></pre>
 <pre><code>## ##
-## ## netdemR: tools for analysis of Twitter data</code></pre>
-<pre><code>## ## Networked Democracy Lab at USC</code></pre>
-<pre><code>## ## netdem.org
+## ## tweetscores: tools for the analysis of Twitter data</code></pre>
+<pre><code>## ## Pablo Barbera (LSE)</code></pre>
+<pre><code>## ## www.tweetscores.com
 ## ##</code></pre>
 <pre><code>## 
-## Attaching package: 'netdemR'</code></pre>
+## Attaching package: 'tweetscores'</code></pre>
 <pre><code>## The following objects are masked from 'package:Rfacebook':
 ## 
 ##     getFriends, getUsers</code></pre>
@@ -444,6 +379,7 @@ ggplot(metrics, aes(x = month, y = value, group = variable)) +
 <p>Just like public Facebook pages, the data from public groups can also be easily downloaded with the getGroup function.</p>
 <pre class="r"><code>group &lt;- getGroup(&quot;150048245063649&quot;, token=fb_oauth, n=50)</code></pre>
 <pre><code>## 25 posts 50 posts</code></pre>
+<p>Now let’s turn to our last challenge of the day…</p>
 </div>
 
 
