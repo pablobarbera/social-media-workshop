@@ -1,7 +1,7 @@
 ---
 title: "Scraping data from Twitter's REST API"
 author: "Pablo Barbera"
-date: "January 23, 2018"
+date: June 24, 2019
 output: html_document
 ---
 
@@ -16,18 +16,18 @@ load("~/my_oauth")
 library(tweetscores)
 library(streamR)
 
-searchTweets(q=c("#TrumpShutdown", "#SchumerShutdown"), 
-  filename="../data/shutdown-tweets.json",
-  n=1000, until="2018-01-22", 
+searchTweets(q=c("brexit", "survey"), 
+  filename="~/data/recent-brexit-tweets.json",
+  n=1000, until="2019-06-22", 
   oauth=my_oauth)
 
-tweets <- parseTweets("../data/shutdown-tweets.json")
+tweets <- parseTweets("~/data/recent-brexit-tweets.json")
 ```
 
 What are the most popular hashtags?
 ```{r}
 library(stringr)
-ht <- str_extract_all(tweets$text, "#(\\d|\\w)+")
+ht <- str_extract_all(tweets$text, '#[A-Za-z0-9_]+')
 ht <- unlist(ht)
 head(sort(table(ht), decreasing = TRUE))
 ```
@@ -53,13 +53,13 @@ users$screen_name[which.max(users$followers_count)]
 
 Download up to 3,200 recent tweets from a Twitter account:
 ```{r}
-getTimeline(filename="../data/realDonaldTrump.json", screen_name="realDonaldTrump", n=1000, oauth=my_oauth)
+getTimeline(filename="~/data/realDonaldTrump.json", screen_name="realDonaldTrump", n=1000, oauth=my_oauth)
 ```
 
 What are the most common hashtags?
 ```{r}
-tweets <- parseTweets("../data/realDonaldTrump.json")
-ht <- str_extract_all(tweets$text, "#(\\d|\\w)+")
+tweets <- parseTweets("~/data/realDonaldTrump.json")
+ht <- str_extract_all(tweets$text, '#[A-Za-z0-9_]+')
 ht <- unlist(ht)
 head(sort(table(ht), decreasing = TRUE))
 ```
@@ -74,7 +74,7 @@ friends <- getFriends("MethodologyLSE",
     oauth=my_oauth)
 ```
 
-What are the most common words that friends of the LSE Methodology Twitter account use to describe themselves on Twitter?
+What are the most common words that friends of the MethodologyLSE account use to describe themselves on Twitter?
 
 ```{r, fig.height=6, fig.width=6}
 # extract profile descriptions
@@ -88,7 +88,7 @@ dfm <- dfm(tw, remove=c(stopwords("english"), stopwords("spanish"),
 topfeatures(dfm, n = 30)
 # create wordcloud
 par(mar=c(0,0,0,0))
-textplot_wordcloud(dfm, rot.per=0, scale=c(2.5, .25), max.words=100)
+textplot_wordcloud(dfm, rotation=0, min_size=1, max_size=5, max_words=100)
 
 ```
 
@@ -98,14 +98,17 @@ The `tweetscores` package also includes functions to replicate the method develo
 
 ```{r}
 # download list of friends for an account
-user <- "p_barbera"
+user <- "DonaldJTrumpJr"
 friends <- getFriends(user, oauth=my_oauth)
-# estimating ideology with MCMC methods
-results <- estimateIdeology(user, friends, verbose=FALSE)
-# trace plot to monitor convergence
-tracePlot(results, "theta")
-# comparing with other ideology estimates
-plot(results)
+# estimating ideology with correspondence analysis method
+(theta <- estimateIdeology2(user, friends, verbose=FALSE))
+
+# download list of friends for an account
+user <- "realDonaldTrump"
+friends <- getFriends(user, oauth=my_oauth)
+# estimating ideology with correspondence analysis method
+(theta <- estimateIdeology2(user, friends, verbose=FALSE))
+
 ```
 
 ### Other types of data
@@ -115,18 +118,18 @@ The REST API offers also a long list of other endpoints that could be of use at 
 1) You can search users related to specific keywords:
 
 ```{r}
-users <- searchUsers(q="london school of economics", count=100, oauth=my_oauth)
+users <- searchUsers(q="MethodologyLSE", count=100, oauth=my_oauth)
 users$screen_name[1:10]
 ```
 
-2) If you know the ID of the tweets, you can download it directly from the API. This is useful because tweets cannot be redistributed as part of the replication materials of a published paper, but the list of tweet IDs can be shared:
+2) If you know the ID of the tweets, you can download it directly from the API. This is useful because tweets cannot be redistributed as part of the replication materials of a published paper, but the list of tweet IDs can be shared. You could use this function to hydrate the lists of tweets available in https://www.docnow.io/catalog/.
 
 ```{r}
 # Downloading tweets when you know the ID
 getStatuses(ids=c("474134260149157888", "266038556504494082"),
-            filename="../data/old-tweets.json",
+            filename="~/data/old-tweets.json",
             oauth=my_oauth)
-parseTweets("../data/old-tweets.json")
+parseTweets("~/data/old-tweets.json", legacy=TRUE)
 ```
 
 3) Lists of Twitter users, compiled by other users, are also accessible through the API.
@@ -162,10 +165,87 @@ textplot_wordcloud(dfm, rot.per=0, scale=c(3, .50), max.words=100)
 
 ```{r}
 # format Twitter dates to facilitate analysis
-tweets <- parseTweets("../data/realDonaldTrump.json")
+tweets <- parseTweets("~/data/realDonaldTrump.json")
 tweets$date <- formatTwDate(tweets$created_at, format="date")
 hist(tweets$date, breaks="month")
 ```
 
-Now time for our second challenge of the day!
+### Checking for bots
+
+```{r}
+# adapted from the botcheck package by @marsha5814
+botometer = function(user, my_oauth, mashape_key, verbose=TRUE) {
+  require(httr)
+  # creating OAuth token
+  myapp = oauth_app("twitter", key=my_oauth$consumer_key, 
+                    secret=my_oauth$consumer_secret)
+  sig = sign_oauth1.0(myapp, token=my_oauth$access_token,
+                    token_secret=my_oauth$access_token_secret)
+  
+  users_url = "https://api.twitter.com/1.1/users/show.json?screen_name="
+  statuses_url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name="
+  search_url = "https://api.twitter.com/1.1/search/tweets.json?q=%40"
+  opts = "&count=200"
+  
+  # API call to get user
+  if (verbose) message("Downloading user profile...")
+  userdata = GET(paste0(users_url,user,opts), sig)
+  
+  # API call to get tweets
+  if (verbose) message("Downloading user tweets...")
+  tweets = GET(paste0(statuses_url,user,opts), sig)
+  
+  # API call to get mentions
+  if (verbose) message("Downloading user mentions...")
+  mentions = GET(paste0(search_url,user,opts), sig)
+  
+  
+  # Put everything in a list
+  body = list(
+    timeline = content(tweets, type="application/json"),
+    mentions = content(mentions, type="application/json"),
+    user = content(userdata, type="application/json")
+  )
+  
+  # Convert to JSON
+  body_json = RJSONIO::toJSON(body, auto_unbox = T, pretty = T)
+  
+  # Make the API request
+  if (verbose) message("Checking Botometer scores...")
+  result = POST("https://osome-botometer.p.mashape.com/2/check_account",
+                 encode="json",
+                 add_headers(`X-Mashape-Key`=mashape_key),
+                 body=body_json)
+  
+  # Parse result
+  result = content(result, as = "parsed")
+  
+  # Return "English" score
+  return(result)
+}
+
+
+results <- botometer("MethodologyLSE", my_oauth, 
+          mashape_key = 'Ujq7AAd3igmshqCBvI1LWbz0J8Hlp1hvVOYjsnMOx8z6bg4U68')
+results$scores
+results$categories
+
+results <- botometer("realDonaldTrump", my_oauth, 
+          mashape_key = 'Ujq7AAd3igmshqCBvI1LWbz0J8Hlp1hvVOYjsnMOx8z6bg4U68')
+results$scores
+results$categories
+
+results <- botometer("everyword", my_oauth, 
+          mashape_key = 'Ujq7AAd3igmshqCBvI1LWbz0J8Hlp1hvVOYjsnMOx8z6bg4U68')
+results$scores
+results$categories
+
+results <- botometer("Horse_3books", my_oauth, 
+          mashape_key = 'Ujq7AAd3igmshqCBvI1LWbz0J8Hlp1hvVOYjsnMOx8z6bg4U68')
+results$scores
+results$categories
+
+```
+
+Now time for another challenge!
 
